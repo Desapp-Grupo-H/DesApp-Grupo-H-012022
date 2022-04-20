@@ -6,7 +6,7 @@ public class TransactionIntention {
 
     public final String buyIntention = "BUY";
 
-    private double amount;
+    private double amount; //Cantidad de la criptos a vender/comprar
 
     private double price; //Cotizacion
 
