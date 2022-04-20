@@ -9,7 +9,7 @@ public class Operation {
 
     private TransactionIntention buyIntention;
 
-    private LocalDateTime dateStarted;
+    private LocalDateTime dateStarted = LocalDateTime.now();
 
     private LocalDateTime dateCompleted; //Formato de LocalDateTime "2022-04-19T22:39:10"
 
@@ -19,7 +19,6 @@ public class Operation {
         int points = (diff == 30) ? 10 : 5 ;
         saleIntention.getUserIntention().completedTransaction(points);
         buyIntention.getUserIntention().completedTransaction(points);
-        dateCompleted = LocalDateTime.now();
     }
 
     public TransactionIntention getSaleIntention() {
