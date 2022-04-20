@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.validators.EmailValidator;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -9,21 +11,38 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
+    @Column(length = 30) //Anotaciones que sirven para limitar el campo a nivel BD
+    @Size(min = 3 , max = 30) //Anotaciones que sirven para el min y max del campo
+    private String name ;
     @Column(length = 30)
     @Size(min = 3 , max = 30)
-    String name ;
-    @Column(length = 30)
-    @Size(min = 3 , max = 30)
-    String lastname;
-    String email;
+    private String lastname;
+    private String email;
     @Column(length = 30)
     @Size(min = 10 , max = 30)
-    String adress;
-    String password;
+    private String adress;
+    private String password;
     @Column(length = 8)
     @Size(min = 8 , max = 8)
-    Wallet wallet;
+    private String wallet;
+    private int transactionsPoints;
+    private int operationsSuccess;
+
+    public User(String name, String lastname, String email, String adress, String password, String wallet, int transactionsPoints, int operationsSuccess) {
+        EmailValidator.patternMatches(email);
+        this.name = name;
+        this.lastname = lastname;
+        this.email = email;
+        this.adress = adress;
+        this.password = password;
+        this.wallet = wallet;
+        this.transactionsPoints = transactionsPoints;
+        this.operationsSuccess = operationsSuccess;
+    }
+
+    public User() {
+
+    }
 
     public Long getId() {
         return id;
@@ -73,11 +92,18 @@ public class User {
         this.password = password;
     }
 
-    public Wallet getWallet() {
+    public String getWallet() {
         return wallet;
     }
 
-    public void setWallet(Wallet wallet) {
+    public void setWallet(String wallet) {
         this.wallet = wallet;
     }
+
+    public void completedTransaction(int points){
+        transactionsPoints += points;
+        operationsSuccess++;
+    }
+
+
 }
