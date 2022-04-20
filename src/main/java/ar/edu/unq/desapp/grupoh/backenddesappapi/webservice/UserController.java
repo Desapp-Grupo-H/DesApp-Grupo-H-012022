@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.swing.text.html.parser.Entity;
 
 @RestController
-@RequestMapping(path = "characters")
+@RequestMapping(path = "users")
 @CrossOrigin(origins = "*" ,methods = {RequestMethod.GET,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class UserController {
 
