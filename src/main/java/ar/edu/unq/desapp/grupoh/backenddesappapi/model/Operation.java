@@ -11,11 +11,14 @@ public class Operation {
 
     private LocalDateTime dateStarted;
 
-    private LocalDateTime dateCompleted;
+    private LocalDateTime dateCompleted; //Formato de LocalDateTime "2022-04-19T22:39:10"
 
     public void completeOperation(){
-        saleIntention.getUserIntention().completedTransaction(0);
-        buyIntention.getUserIntention().completedTransaction(0);
+        //Logica del tiempo puede ser mejor
+        int diff = dateCompleted.getMinute() - dateStarted.getMinute();
+        int points = (diff == 30) ? 10 : 5 ;
+        saleIntention.getUserIntention().completedTransaction(points);
+        buyIntention.getUserIntention().completedTransaction(points);
         dateCompleted = LocalDateTime.now();
     }
 
