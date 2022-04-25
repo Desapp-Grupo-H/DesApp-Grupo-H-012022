@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.validators.EmailValidator;
 
 import javax.persistence.*;
@@ -25,10 +26,10 @@ public class User {
     //@Column(length = 8)
     @Size(min = 8 , max = 8)
     private String wallet;
-    private int transactionsPoints;
-    private int operationsSuccess;
+    private int transactionsPoints = 0;
+    private int operationsSuccess  = 0;
 
-    public User(String name, String lastname, String email, String adress, String password, String wallet, int transactionsPoints, int operationsSuccess) {
+    public User(String name, String lastname, String email, String adress, String password, String wallet, int transactionsPoints, int operationsSuccess) throws UserException {
         EmailValidator.patternMatches(email);
         this.name = name;
         this.lastname = lastname;
@@ -121,15 +122,10 @@ public class User {
         operationsSuccess++;
     }
 
-    public static UserBuilder builder() {
-        return new UserBuilder();
-    }
-
     public static final class UserBuilder {
-        private User user;
+        private final User user = new User();
 
         private UserBuilder() {
-            User user = new User();
         }
 
         public UserBuilder withName(String name){
@@ -172,10 +168,14 @@ public class User {
             return this;
         }
 
-        public User build(){
-            return user;
+        public User build() throws UserException {
+            return new User(user.name, user.lastname, user.email, user.adress, user.password, user.wallet, user.transactionsPoints,user.operationsSuccess);
         }
 
+    }
+
+    public static UserBuilder builder() {
+        return new UserBuilder();
     }
 
 
