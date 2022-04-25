@@ -1,10 +1,10 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.validators.EmailValidator;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.validators.Validator;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
+
 
 @Entity
 public class User {
@@ -12,25 +12,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    //@Column(length = 30) //Anotaciones que sirven para limitar el campo a nivel BD
-    @Size(min = 3 , max = 30) //Anotaciones que sirven para el min y max del campo
     private String name ;
-    //@Column(length = 30)
-    @Size(min = 3 , max = 30)
     private String lastname;
     private String email;
-    //@Column(length = 30)
-    @Size(min = 10 , max = 30)
     private String adress;
     private String password;
-    //@Column(length = 8)
-    @Size(min = 8 , max = 8)
     private String wallet;
     private int transactionsPoints = 0;
     private int operationsSuccess  = 0;
 
     public User(String name, String lastname, String email, String adress, String password, String wallet, int transactionsPoints, int operationsSuccess) throws UserException {
-        EmailValidator.patternMatches(email);
+        Validator.patternMatches(email);
+        Validator.nameMatches(name);
+        Validator.nameMatches(lastname);
         this.name = name;
         this.lastname = lastname;
         this.email = email;
