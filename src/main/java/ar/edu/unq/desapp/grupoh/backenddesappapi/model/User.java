@@ -11,18 +11,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(length = 30) //Anotaciones que sirven para limitar el campo a nivel BD
+    //@Column(length = 30) //Anotaciones que sirven para limitar el campo a nivel BD
     @Size(min = 3 , max = 30) //Anotaciones que sirven para el min y max del campo
     private String name ;
-    @Column(length = 30)
+    //@Column(length = 30)
     @Size(min = 3 , max = 30)
     private String lastname;
     private String email;
-    @Column(length = 30)
+    //@Column(length = 30)
     @Size(min = 10 , max = 30)
     private String adress;
     private String password;
-    @Column(length = 8)
+    //@Column(length = 8)
     @Size(min = 8 , max = 8)
     private String wallet;
     private int transactionsPoints;
@@ -100,9 +100,82 @@ public class User {
         this.wallet = wallet;
     }
 
+    public int getTransactionsPoints() {
+        return transactionsPoints;
+    }
+
+    public void setTransactionsPoints(int transactionsPoints) {
+        this.transactionsPoints = transactionsPoints;
+    }
+
+    public int getOperationsSuccess() {
+        return operationsSuccess;
+    }
+
+    public void setOperationsSuccess(int operationsSuccess) {
+        this.operationsSuccess = operationsSuccess;
+    }
+
     public void completedTransaction(int points){
         transactionsPoints += points;
         operationsSuccess++;
+    }
+
+    public static UserBuilder builder() {
+        return new UserBuilder();
+    }
+
+    public static final class UserBuilder {
+        private User user;
+
+        private UserBuilder() {
+            User user = new User();
+        }
+
+        public UserBuilder withName(String name){
+            user.setName(name);
+            return this;
+        }
+
+        public UserBuilder withLastname(String lastName){
+            user.setLastname(lastName);
+            return this;
+        }
+
+        public UserBuilder withEmail(String email){
+            user.setEmail(email);
+            return this;
+        }
+
+        public UserBuilder withAdress(String adress){
+            user.setAdress(adress);
+            return this;
+        }
+
+        public UserBuilder withPassword(String password){
+            user.setPassword(password);
+            return this;
+        }
+
+        public UserBuilder withWallet(String wallet){
+            user.setWallet(wallet);
+            return this;
+        }
+
+        public UserBuilder withTransactionsPoints(int points){
+            user.setTransactionsPoints(points);
+            return this;
+        }
+
+        public UserBuilder withOperationsSuccess(int size){
+            user.setOperationsSuccess(size);
+            return this;
+        }
+
+        public User build(){
+            return user;
+        }
+
     }
 
 
