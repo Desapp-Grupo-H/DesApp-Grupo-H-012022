@@ -16,4 +16,17 @@ public class Validator {
             throw new UserException("Name or Lastname not valid");
         }
     }
+
+    public static void adressMatches(String adress) throws UserException{
+        if (!(Pattern.compile("^.{10,30}").matcher(adress).matches())){
+            throw new UserException("Adress not valid");
+        }
+    }
+
+    public static void walletMatches(Long wallet) throws UserException{
+        if (!(wallet.toString().length() == 8)){
+            throw new UserException("Wallet not valid");
+        }
+    }
+
 }

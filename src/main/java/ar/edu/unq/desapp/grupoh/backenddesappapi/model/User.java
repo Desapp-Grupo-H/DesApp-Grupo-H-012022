@@ -17,14 +17,18 @@ public class User {
     private String email;
     private String adress;
     private String password;
-    private String wallet;
+    private Long wallet;
     private int transactionsPoints = 0;
     private int operationsSuccess  = 0;
 
-    public User(String name, String lastname, String email, String adress, String password, String wallet, int transactionsPoints, int operationsSuccess) throws UserException {
+    private String cvu;
+
+    public User(String name, String lastname, String email, String adress, String password, Long wallet, int transactionsPoints, int operationsSuccess) throws UserException {
         Validator.patternMatches(email);
         Validator.nameMatches(name);
         Validator.nameMatches(lastname);
+        Validator.adressMatches(adress);
+        Validator.walletMatches(wallet);
         this.name = name;
         this.lastname = lastname;
         this.email = email;
@@ -87,11 +91,11 @@ public class User {
         this.password = password;
     }
 
-    public String getWallet() {
+    public Long getWallet() {
         return wallet;
     }
 
-    public void setWallet(String wallet) {
+    public void setWallet(Long wallet) {
         this.wallet = wallet;
     }
 
@@ -147,7 +151,7 @@ public class User {
             return this;
         }
 
-        public UserBuilder withWallet(String wallet){
+        public UserBuilder withWallet(Long wallet){
             user.setWallet(wallet);
             return this;
         }
