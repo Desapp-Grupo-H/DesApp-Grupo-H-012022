@@ -22,10 +22,10 @@ public class Validator {
             throw new UserException("Adress not valid");
         }
     }
-
-    public static void walletMatches(Long wallet) throws UserException{
-        if (!(wallet.toString().length() == 8)){
-            throw new UserException("Wallet not valid");
+    
+    public static void walletMatches(String wallet) throws UserException{
+        if (!(Pattern.compile("d{8}").matcher(wallet).matches())){
+            throw new UserException("Adress not valid");
         }
     }
 
