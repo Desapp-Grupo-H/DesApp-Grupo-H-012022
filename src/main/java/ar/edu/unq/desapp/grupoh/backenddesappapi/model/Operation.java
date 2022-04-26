@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 public class Operation {
 
-    private TransactionIntention saleIntention;
+    private TransactionIntention intention; //Es la intencion que fue seleccionada por un usuario
 
-    private TransactionIntention buyIntention;
+    private User userInitOperation;//El usuario que eligio la intencio puede ser como Comprador o Vendedor
 
     private LocalDateTime dateStarted = LocalDateTime.now();
 
@@ -17,24 +17,31 @@ public class Operation {
         //Logica del tiempo puede ser mejor
         int diff = dateCompleted.getMinute() - dateStarted.getMinute();
         int points = (diff == 30) ? 10 : 5 ;
-        saleIntention.getUserIntention().completedTransaction(points);
-        buyIntention.getUserIntention().completedTransaction(points);
+        intention.getUserIntention().completedTransaction(points);
+        userInitOperation.completedTransaction(points);
     }
 
-    public TransactionIntention getSaleIntention() {
-        return saleIntention;
+    public void cancelOperation(){
+        //Validar la diferencia con la cotizacion del cripto correspondiente ?
+        //Luego asignar/revisar quien fue/como se cancelo la operacion
+        //restar puntos a quien sea
+        //TODO hacer la logica de cancelar la operacion
     }
 
-    public void setSaleIntention(TransactionIntention saleIntention) {
-        this.saleIntention = saleIntention;
+    public TransactionIntention getIntention() {
+        return intention;
     }
 
-    public TransactionIntention getBuyIntention() {
-        return buyIntention;
+    public void setIntention(TransactionIntention intention) {
+        this.intention = intention;
     }
 
-    public void setBuyIntention(TransactionIntention buyIntention) {
-        this.buyIntention = buyIntention;
+    public User getUserInitOperation() {
+        return userInitOperation;
+    }
+
+    public void setUserInitOperation(User userInitOperation) {
+        this.userInitOperation = userInitOperation;
     }
 
     public LocalDateTime getDateStarted() {
