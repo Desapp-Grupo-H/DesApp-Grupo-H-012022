@@ -22,10 +22,16 @@ public class Validator {
             throw new UserException("Adress not valid");
         }
     }
-    
+
     public static void walletMatches(String wallet) throws UserException{
         if (!(Pattern.compile("d{8}").matcher(wallet).matches())){
-            throw new UserException("Adress not valid");
+            throw new UserException("Wallet not valid");
+        }
+    }
+
+    public static void cvuMatches(String cvu) throws UserException{
+        if (!(Pattern.compile("d{22}").matcher(cvu).matches())){
+            throw new UserException("Cvu not valid");
         }
     }
 

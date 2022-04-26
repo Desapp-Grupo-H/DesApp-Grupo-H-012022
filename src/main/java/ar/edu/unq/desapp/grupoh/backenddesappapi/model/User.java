@@ -30,7 +30,7 @@ public class User {
         Validator.nameMatches(lastname);
         Validator.adressMatches(adress);
         Validator.walletMatches(wallet);
-        Validator.walletMatches(wallet);
+        Validator.cvuMatches(wallet);
         this.name = name;
         this.lastname = lastname;
         this.email = email;
