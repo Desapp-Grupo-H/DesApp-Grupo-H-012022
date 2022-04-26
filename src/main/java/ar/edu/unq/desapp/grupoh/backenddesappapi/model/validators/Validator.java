@@ -24,13 +24,13 @@ public class Validator {
     }
 
     public static void walletMatches(String wallet) throws UserException{
-        if (!(Pattern.compile("d{8}").matcher(wallet).matches())){
+        if (!(Pattern.compile("[0-9]{8}").matcher(wallet).matches())){
             throw new UserException("Wallet not valid");
         }
     }
 
     public static void cvuMatches(String cvu) throws UserException{
-        if (!(Pattern.compile("d{22}").matcher(cvu).matches())){
+        if (!(Pattern.compile("[0-9]{22}").matcher(cvu).matches())){
             throw new UserException("Cvu not valid");
         }
     }

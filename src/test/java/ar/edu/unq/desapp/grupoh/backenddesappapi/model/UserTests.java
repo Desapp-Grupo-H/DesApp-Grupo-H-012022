@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTests {
 
     public User anUser() throws UserException {
-        return User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").build();
+        return User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAdress("1234567891").withPassword("123123").build();
     }
 
 
@@ -46,6 +46,30 @@ public class UserTests {
 
     }
 
+    @Test
+    public void anUserHasInvalidCvu() {
+        UserException error  = assertThrows(UserException.class, () -> {
+            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAdress("1234567891").withPassword("123123").withCvu("1312131231312322").build();
+        });
+
+        String actualMessage = error.getMessage();
+
+        assertTrue(actualMessage.contains("Cvu not valid"));
+
+    }
+
+
+    @Test
+    public void anUserHasInvalidWallet() {
+        UserException error  = assertThrows(UserException.class, () -> {
+            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withWallet("123456").build();
+        });
+
+        String actualMessage = error.getMessage();
+
+        assertTrue(actualMessage.contains("Wallet not valid"));
+
+    }
 
     @Test
     public void anUserHasInvalidEmail() {

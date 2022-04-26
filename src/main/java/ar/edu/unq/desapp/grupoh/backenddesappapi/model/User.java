@@ -18,25 +18,25 @@ public class User {
     private String adress;
     private String password;
     private String wallet;
-
     private String cvu;
     private int transactionsPoints = 0;
     private int operationsSuccess  = 0;
 
 
-    public User(String name, String lastname, String email, String adress, String password, String wallet, int transactionsPoints, int operationsSuccess) throws UserException {
+    public User(String name, String lastname, String email, String adress, String password, String wallet,String cvu, int transactionsPoints, int operationsSuccess) throws UserException {
         Validator.patternMatches(email);
         Validator.nameMatches(name);
         Validator.nameMatches(lastname);
-        Validator.adressMatches(adress);
         Validator.walletMatches(wallet);
-        Validator.cvuMatches(wallet);
+        Validator.adressMatches(adress);
+        Validator.cvuMatches(cvu);
         this.name = name;
         this.lastname = lastname;
         this.email = email;
         this.adress = adress;
         this.password = password;
         this.wallet = wallet;
+        this.cvu = cvu;
         this.transactionsPoints = transactionsPoints;
         this.operationsSuccess = operationsSuccess;
     }
@@ -140,7 +140,6 @@ public class User {
             user.setName(name);
             return this;
         }
-
         public UserBuilder withLastname(String lastName){
             user.setLastname(lastName);
             return this;
@@ -153,6 +152,11 @@ public class User {
 
         public UserBuilder withAdress(String adress){
             user.setAdress(adress);
+            return this;
+        }
+
+        public UserBuilder withCvu(String cvu){
+            user.setCvu(cvu);
             return this;
         }
 
@@ -171,13 +175,13 @@ public class User {
             return this;
         }
 
-        public UserBuilder withOperationsSuccess(int size){
+        public UserBuilder withOperationsSuccess(int size) {
             user.setOperationsSuccess(size);
             return this;
         }
 
         public User build() throws UserException {
-            return new User(user.name, user.lastname, user.email, user.adress, user.password, user.wallet, user.transactionsPoints,user.operationsSuccess);
+            return new User(user.name, user.lastname, user.email, user.adress, user.password, user.wallet, user.cvu, user.transactionsPoints, user.operationsSuccess);
         }
 
     }
