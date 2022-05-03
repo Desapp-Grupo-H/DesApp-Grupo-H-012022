@@ -2,10 +2,7 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 public class TransactionIntention {
 
-    public final String sellIntention = "SELL"; //Alternativa puede ser usar una clase abstracta y dos que hereden
-
-    public final String buyIntention = "BUY";
-
+    private TransactionIntention typeTransaction; //BUY OR SELL
     private double amount; //Cantidad de la criptos a vender/comprar
 
     private double price; //Cotizacion
@@ -14,20 +11,12 @@ public class TransactionIntention {
 
     private User user;
 
-    public User getUserIntention() {
-        return user;
+    public TransactionIntention getTypeTransaction() {
+        return typeTransaction;
     }
 
-    public void setUserIntention(User userIntention) {
-        this.user = userIntention;
-    }
-
-    public String getSellIntention() {
-        return sellIntention;
-    }
-
-    public String getBuyIntention() {
-        return buyIntention;
+    public void setTypeTransaction(TransactionIntention typeTransaction) {
+        this.typeTransaction = typeTransaction;
     }
 
     public double getAmount() {
@@ -52,5 +41,13 @@ public class TransactionIntention {
 
     public void setCripto(Criptos cripto) {
         this.cripto = cripto;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

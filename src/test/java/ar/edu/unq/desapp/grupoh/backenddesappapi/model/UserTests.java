@@ -1,8 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.validators.Validator;
-import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

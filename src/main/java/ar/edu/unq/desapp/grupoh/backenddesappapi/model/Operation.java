@@ -13,11 +13,14 @@ public class Operation {
 
     private LocalDateTime dateCompleted; //Formato de LocalDateTime "2022-04-19T22:39:10"
 
+    public Operation() {
+    }
+
     public void completeOperation(){
         //Logica del tiempo puede ser mejor
         int diff = dateCompleted.getMinute() - dateStarted.getMinute();
         int points = (diff == 30) ? 10 : 5 ;
-        intention.getUserIntention().completedTransaction(points);
+        intention.getUser().completedTransaction(points);
         userInitOperation.completedTransaction(points);
     }
 
@@ -58,5 +61,9 @@ public class Operation {
 
     public void setDateCompleted(LocalDateTime dateCompleted) {
         this.dateCompleted = dateCompleted;
+    }
+
+    public Criptos getCrypto(){
+        return this.intention.getCripto();
     }
 }
