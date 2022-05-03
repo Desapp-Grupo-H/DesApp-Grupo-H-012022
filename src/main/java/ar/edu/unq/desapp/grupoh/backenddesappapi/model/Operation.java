@@ -19,13 +19,13 @@ public class Operation {
     public void completeOperation(){
         //Logica del tiempo puede ser mejor
         if (isInPriceRange()){
-        int diff = dateCompleted.getMinute() - dateStarted.getMinute();
-        int points = (diff == 30) ? 10 : 5 ;
-        intention.getUser().completedTransaction(points);
-        userInitOperation.completedTransaction(points);
+            int diff = dateCompleted.getMinute() - dateStarted.getMinute();
+            int points = (diff == 30) ? 10 : 5 ;
+            intention.getUser().completedTransaction(points);
+            userInitOperation.completedTransaction(points);
         }else{
             cancelOperationSystem();////???
-            }
+        }
     }
 
     public void cancelOperation(User user){ /*The user is the one that cancelled the transaction or nothing in case of a system cancellation*/
@@ -74,8 +74,8 @@ public class Operation {
         this.dateCompleted = dateCompleted;
     }
 
-    public Criptos getCrypto(){
-        return this.intention.getCripto();
+    public CryptoCurrency getCrypto(){
+        return this.intention.getCrypto();
     }
     private boolean isInPriceRange(){
         intention.getCrypto().compareCotization(intention.getPrice());
