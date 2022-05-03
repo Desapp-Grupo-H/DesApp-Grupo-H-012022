@@ -19,10 +19,10 @@ public class Operation {
     public void completeOperation(){
         //Logica del tiempo puede ser mejor
         if (isInPriceRange()){
-        int diff = dateCompleted.getMinute() - dateStarted.getMinute();
-        int points = (diff == 30) ? 10 : 5 ;
-        intention.getUser().completedTransaction(points);
-        userInitOperation.completedTransaction(points);
+            int diff = dateCompleted.getMinute() - dateStarted.getMinute();
+            int points = (diff == 30) ? 10 : 5 ;
+            intention.getUser().completedTransaction(points);
+            userInitOperation.completedTransaction(points);
         }else{
             cancelOperationSystem();////???
             }
@@ -74,8 +74,8 @@ public class Operation {
         this.dateCompleted = dateCompleted;
     }
 
-    public Criptos getCrypto(){
-        return this.intention.getCripto();
+    public Crypto getCrypto(){
+        return this.intention.getCrypto().getName();
     }
     private boolean isInPriceRange(){
         intention.getCrypto().compareCotization(intention.getPrice());
