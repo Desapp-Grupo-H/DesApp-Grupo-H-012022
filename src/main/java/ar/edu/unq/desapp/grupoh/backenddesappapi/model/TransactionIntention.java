@@ -7,7 +7,7 @@ public class TransactionIntention {
 
     private float price; //Cotizacion
 
-    private CryptoCurrency crypto;
+    private CryptoCurrency crypto; //Chequear mas adelante si conviene solo que este el enum con los valores
 
     private User user;
 
