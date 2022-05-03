@@ -15,17 +15,28 @@ public class Operation {
 
     public void completeOperation(){
         //Logica del tiempo puede ser mejor
+        if (isInPriceRange()){
         int diff = dateCompleted.getMinute() - dateStarted.getMinute();
         int points = (diff == 30) ? 10 : 5 ;
         intention.getUserIntention().completedTransaction(points);
         userInitOperation.completedTransaction(points);
+        }else{
+            cancelOperationSystem();////???
+            }
     }
 
-    public void cancelOperation(){
+    public void cancelOperation(User user){ /*The user is the one that cancelled the transaction or nothing in case of a system cancellation*/
+
+        user.cancelledTransaction();
         //Validar la diferencia con la cotizacion del cripto correspondiente ?
+        //
         //Luego asignar/revisar quien fue/como se cancelo la operacion
         //restar puntos a quien sea
         //TODO hacer la logica de cancelar la operacion
+    }
+
+    private void cancelOperationSystem(){
+
     }
 
     public TransactionIntention getIntention() {
@@ -58,5 +69,10 @@ public class Operation {
 
     public void setDateCompleted(LocalDateTime dateCompleted) {
         this.dateCompleted = dateCompleted;
+    }
+
+    private boolean isInPriceRange(){
+        intention.getCrypto().compareCotization(intention.getPrice());
+        return true;
     }
 }

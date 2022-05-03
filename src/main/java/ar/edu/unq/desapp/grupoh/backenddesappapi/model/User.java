@@ -130,6 +130,10 @@ public class User {
         operationsSuccess++;
     }
 
+    public void cancelledTransaction(){ /*For when the users cancells a transaction*/
+        transactionsPoints -= 20;
+    }
+
     public static final class UserBuilder {
         private final User user = new User();
 

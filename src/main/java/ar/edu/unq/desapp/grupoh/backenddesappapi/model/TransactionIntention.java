@@ -8,9 +8,9 @@ public class TransactionIntention {
 
     private double amount; //Cantidad de la criptos a vender/comprar
 
-    private double price; //Cotizacion
+    private float price; //Cotizacion
 
-    private Criptos cripto;
+    private CryptoCurrency crypto;
 
     private User user;
 
@@ -38,19 +38,19 @@ public class TransactionIntention {
         this.amount = amount;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public Criptos getCripto() {
-        return cripto;
+    public CryptoCurrency getCrypto() {
+        return crypto;
     }
 
-    public void setCripto(Criptos cripto) {
-        this.cripto = cripto;
+    public void setCrypto(CryptoCurrency crypto) {
+        this.crypto = crypto;
     }
 }
