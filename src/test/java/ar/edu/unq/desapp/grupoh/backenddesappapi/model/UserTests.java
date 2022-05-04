@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTests {
 
     public User anUser() throws UserException {
-        return User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAdress("1234567891").withPassword("123123").build();
+        return User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAddress("1234567891").withPassword("123123").build();
     }
 
 
@@ -47,7 +47,7 @@ public class UserTests {
     @Test
     public void anUserHasInvalidCvu() {
         UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAdress("1234567891").withPassword("123123").withCvu("1312131231312322").build();
+            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAddress("1234567891").withPassword("123123").withCvu("1312131231312322").build();
         });
 
         String actualMessage = error.getMessage();

@@ -33,8 +33,7 @@ public class CryptoCurrency {
     }
 
     public boolean compareCotization(float price){
-      return ((price > (this.price*(0.95))&& price < (this.price*(1.05)))); //TODO poner el valor del rango en variables
+      return (price > (this.price*(0.95))&& price < (this.price*(1.05))); /*poner el valor del rango en variables*/
     }
-
 
 }

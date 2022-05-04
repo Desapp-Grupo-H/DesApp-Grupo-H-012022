@@ -15,7 +15,7 @@ public class User {
     private String name ;
     private String lastname;
     private String email;
-    private String adress;
+    private String address;
     private String password;
     private String wallet;
     private String cvu;
@@ -23,17 +23,17 @@ public class User {
     private int operationsSuccess  = 0;
 
 
-    public User(String name, String lastname, String email, String adress, String password, String wallet,String cvu, int transactionsPoints, int operationsSuccess) throws UserException {
+    public User(String name, String lastname, String email, String address, String password, String wallet, String cvu, int transactionsPoints, int operationsSuccess) throws UserException {
         Validator.patternMatches(email);
         Validator.nameMatches(name);
         Validator.nameMatches(lastname);
         Validator.walletMatches(wallet);
-        Validator.adressMatches(adress);
+        Validator.addressMatches(address);
         Validator.cvuMatches(cvu);
         this.name = name;
         this.lastname = lastname;
         this.email = email;
-        this.adress = adress;
+        this.address = address;
         this.password = password;
         this.wallet = wallet;
         this.cvu = cvu;
@@ -77,12 +77,12 @@ public class User {
         this.email = email;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     public String getPassword() {
@@ -154,8 +154,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder withAdress(String adress){
-            user.setAdress(adress);
+        public UserBuilder withAddress(String address){
+            user.setAddress(address);
             return this;
         }
 
@@ -185,7 +185,7 @@ public class User {
         }
 
         public User build() throws UserException {
-            return new User(user.name, user.lastname, user.email, user.adress, user.password, user.wallet, user.cvu, user.transactionsPoints, user.operationsSuccess);
+            return new User(user.name, user.lastname, user.email, user.address, user.password, user.wallet, user.cvu, user.transactionsPoints, user.operationsSuccess);
         }
 
     }
