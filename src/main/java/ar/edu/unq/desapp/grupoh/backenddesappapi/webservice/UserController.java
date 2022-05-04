@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.swing.text.html.parser.Entity;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/users")
@@ -34,7 +35,9 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> saveUser(@RequestBody User user){
-        return ResponseEntity.status(201).body(this.userService.saveUser(user));
+    public ResponseEntity<?> registrar(@Valid @RequestBody UserDto userDto) throws UserException {
+        User user = userDto.createUser();
+        userService.saveUser(user);
+        return ResponseEntity.status(201).body(userDto);
     }
 }

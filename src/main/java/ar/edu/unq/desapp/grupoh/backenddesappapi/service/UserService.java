@@ -24,7 +24,7 @@ public class UserService {
     }
 
     public User findById(Long id) throws UserException {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserException("Usuario ya registrado"));//Exception);
+        return this.userRepository.findById(id).orElseThrow(() -> new UserException("El usuario no existe"));//Exception);
     }
 
     public User saveUser(User user) {
