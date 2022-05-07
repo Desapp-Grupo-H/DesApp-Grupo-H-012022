@@ -10,20 +10,26 @@ import javax.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
+    @Column(nullable = false)
     private String name ;
+    @Column(nullable = false)
     private String lastname;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String address;
     private String password;
+    @Column(nullable = false)//, unique = true
     private String wallet;
+    @Column(nullable = false)//, unique = true
     private String cvu;
     private int transactionsPoints = 0;
     private int operationsSuccess  = 0;
 
 
     public User(String name, String lastname, String email, String address, String password, String wallet, String cvu, int transactionsPoints, int operationsSuccess) throws UserException {
+
         Validator.patternMatches(email);
         Validator.nameMatches(name);
         Validator.nameMatches(lastname);
@@ -37,12 +43,13 @@ public class User {
         this.password = password;
         this.wallet = wallet;
         this.cvu = cvu;
-        this.transactionsPoints = transactionsPoints;
-        this.operationsSuccess = operationsSuccess;
     }
 
     public User() {
 
+    }
+
+    public User(String name, String lastName, String email, String address, String password, String walletAddress, String cvu) {
     }
 
     public Long getId() {
