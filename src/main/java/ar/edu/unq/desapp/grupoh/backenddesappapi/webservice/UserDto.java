@@ -56,7 +56,7 @@ public class UserDto {
         return address;
     }
 
-    public void setAdrdess(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
@@ -87,4 +87,5 @@ public class UserDto {
     public User createUser() throws UserException {
         return new User(name,  lastName,  email,  address,  password,  walletAddress,  cvu);
     }
+
 }

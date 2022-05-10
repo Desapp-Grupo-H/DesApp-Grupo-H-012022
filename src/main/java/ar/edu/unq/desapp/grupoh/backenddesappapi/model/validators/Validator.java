@@ -17,9 +17,9 @@ public class Validator {
         }
     }
 
-    public static void addressMatches(String adress) throws UserException{
-        if (!(Pattern.compile("^.{10,30}").matcher(adress).matches())){
-            throw new UserException("Adress not valid");
+    public static void addressMatches(String address) throws UserException{
+        if (!(Pattern.compile("^.{10,30}").matcher(address).matches())){
+            throw new UserException("Address not valid");
         }
     }
 

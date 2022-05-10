@@ -32,4 +32,15 @@ public class UserService {
     public User saveUser(User user) {
         return this.userRepository.save(user);
     }
+
+    public void deleteUser(Long id) {
+        this.userRepository.deleteById(id);
+    }
+
+   /* public User findByEmail(String email){
+        return this.userRepository.findBy();
+    }
+    public void loginUser(){}
+
+    public void logOut(){}*/
 }

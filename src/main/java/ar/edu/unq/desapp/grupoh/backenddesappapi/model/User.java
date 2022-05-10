@@ -28,7 +28,7 @@ public class User {
     private int operationsSuccess  = 0;
 
 
-    public User(String name, String lastname, String email, String address, String password, String wallet, String cvu, int transactionsPoints, int operationsSuccess) throws UserException {
+    public User(String name, String lastname, String email, String address, String password, String wallet, String cvu) throws UserException {
 
         Validator.patternMatches(email);
         Validator.nameMatches(name);
@@ -47,9 +47,6 @@ public class User {
 
     public User() {
 
-    }
-
-    public User(String name, String lastName, String email, String address, String password, String walletAddress, String cvu) {
     }
 
     public Long getId() {
@@ -88,8 +85,8 @@ public class User {
         return address;
     }
 
-    public void setAddress(String adress) {
-        this.address = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPassword() {
@@ -192,7 +189,7 @@ public class User {
         }
 
         public User build() throws UserException {
-            return new User(user.name, user.lastname, user.email, user.address, user.password, user.wallet, user.cvu, user.transactionsPoints, user.operationsSuccess);
+            return new User(user.name, user.lastname, user.email, user.address, user.password, user.wallet, user.cvu);
         }
 
     }

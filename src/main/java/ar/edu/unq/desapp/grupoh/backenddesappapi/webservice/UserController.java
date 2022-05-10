@@ -35,9 +35,15 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> registrar(@Valid @RequestBody UserDto userDto) throws UserException {
+    public ResponseEntity<?> register(@Valid @RequestBody UserDto userDto) throws UserException {
         User user = userDto.createUser();
         userService.saveUser(user);
         return ResponseEntity.status(201).body(userDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) throws UserException {
+        userService.deleteUser(id);
+        return ResponseEntity.status(200).build();
     }
 }
