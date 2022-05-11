@@ -11,8 +11,6 @@ import javax.validation.constraints.Pattern;
 
 public class UserDto {
 
-    //public static final String passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}";
-
     public static final String passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{6,}$";
     public static final String digitsRegex = "[0-9]+";
 

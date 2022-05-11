@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,6 @@ import javax.swing.text.html.parser.Entity;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = "/api/users")
 @CrossOrigin(origins = "*" ,methods = {RequestMethod.GET,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class UserController {
 
@@ -24,24 +24,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/api/users")
     public ResponseEntity<?> getAllUsers(){
         return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/api/users/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) throws UserException {
         return ResponseEntity.status(200).body(this.userService.findById(id));
     }
 
-    @PostMapping()
+    @PostMapping("/api/users")
     public ResponseEntity<?> register(@Valid @RequestBody UserDto userDto) throws UserException {
         User user = userDto.createUser();
         userService.saveUser(user);
         return ResponseEntity.status(201).body(userDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/users/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) throws UserException {
         userService.deleteUser(id);
         return ResponseEntity.status(200).build();
