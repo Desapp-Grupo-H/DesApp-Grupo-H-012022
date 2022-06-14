@@ -46,4 +46,5 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.status(200).build();
     }
+
 }

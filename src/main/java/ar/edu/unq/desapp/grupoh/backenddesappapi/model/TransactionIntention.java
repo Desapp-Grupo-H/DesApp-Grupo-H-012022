@@ -1,5 +1,7 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntentionStatus.INACTIVE;
+
 public class TransactionIntention {
 
     private TransactionIntention typeTransaction; //BUY OR SELL
@@ -10,6 +12,7 @@ public class TransactionIntention {
     private CryptoCurrency crypto; //Chequear mas adelante si conviene solo que este el enum con los valores
 
     private User user;
+    private TransactionIntentionStatus status;
 
     public TransactionIntention getTypeTransaction() {
         return typeTransaction;
@@ -50,4 +53,9 @@ public class TransactionIntention {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public TransactionIntentionStatus getStatus(){return this.status;}
+    public void setStatus(TransactionIntentionStatus status){this.status = status;}
+
+    public void cancel() {this.setStatus(INACTIVE);}
 }

@@ -43,6 +43,7 @@ public class Operation {
 
     private void cancelOperationSystem(){
         this.status = CANCELED;
+        this.intention.cancel();
     }
 
     public TransactionIntention getIntention() {
