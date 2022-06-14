@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.OperationStatus.DONE;
+import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntentionStatus.ACTIVE;
 
 @Service
 public class TransactionService {
