@@ -1,11 +1,10 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TypeTransaction;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -42,7 +41,6 @@ public class TransactionDto {
     public TypeTransaction getType() {
         return typeTransaction;
     }
-
     public void setType(TypeTransaction typeTransaction) {
         this.typeTransaction = typeTransaction;
     }
@@ -50,7 +48,6 @@ public class TransactionDto {
     public double getAmount() {
         return amount;
     }
-
     public void setAmount(double amount) {
         this.amount = amount;
     }
@@ -58,7 +55,6 @@ public class TransactionDto {
     public float getPrice() {
         return price;
     }
-
     public void setPrice(float price) {
         this.price = price;
     }
@@ -66,7 +62,6 @@ public class TransactionDto {
     public CryptoCurrency getCrypto() {
         return crypto;
     }
-
     public void setCryptoAddress(CryptoCurrency crypto) {
         this.crypto = crypto;
     }
@@ -74,13 +69,12 @@ public class TransactionDto {
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
 
-    /*public TransactionIntention createTransaction() throws TransactionException {
+    public TransactionIntention createTransaction() throws TransactionException {
         return new TransactionIntention(typeTransaction, amount, price, crypto, user);
-    }*/
+    }
 
 }

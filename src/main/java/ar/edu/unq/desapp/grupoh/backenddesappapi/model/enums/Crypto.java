@@ -1,4 +1,5 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums;
+
 
 public enum Crypto {
     ALICEUSDT,MATICUSDT,AXSUSDT,AAVEUSDT,ATOMUSDT,NEOUSDT,DOTUSDT,ETHUSDT,CAKEUSDT,

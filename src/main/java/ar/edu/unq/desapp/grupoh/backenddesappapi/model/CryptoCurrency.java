@@ -1,8 +1,15 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 public class CryptoCurrency {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private Crypto crypto;
     private Float price;

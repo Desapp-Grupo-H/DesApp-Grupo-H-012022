@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
@@ -48,7 +48,6 @@ public class UserDto {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -56,7 +55,6 @@ public class UserDto {
     public String getLastName() {
         return lastName;
     }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -64,7 +62,6 @@ public class UserDto {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -72,7 +69,6 @@ public class UserDto {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -80,7 +76,6 @@ public class UserDto {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -88,7 +83,6 @@ public class UserDto {
     public String getCvu() {
         return cvu;
     }
-
     public void setCvu(String cvu) {
         this.cvu = cvu;
     }
@@ -96,7 +90,6 @@ public class UserDto {
     public String getWalletAddress() {
         return walletAddress;
     }
-
     public void setWalletAddress(String walletAddress) {
         this.walletAddress = walletAddress;
     }

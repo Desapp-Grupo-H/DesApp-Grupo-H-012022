@@ -25,7 +25,7 @@ public class User {
     @Column(nullable = false)//, unique = true
     private String cvu;
     private int transactionsPoints = 0;
-    private int operationsSuccess  = 0;
+    private int successfulOperations = 0;
 
 
     public User(String name, String lastname, String email, String address, String password, String wallet, String cvu) throws UserException {
@@ -45,9 +45,7 @@ public class User {
         this.cvu = cvu;
     }
 
-    public User() {
-
-    }
+    public User(){};
 
     public Long getId() {
         return id;
@@ -113,12 +111,12 @@ public class User {
         this.transactionsPoints = transactionsPoints;
     }
 
-    public int getOperationsSuccess() {
-        return operationsSuccess;
+    public int getSuccessfulOperations() {
+        return successfulOperations;
     }
 
-    public void setOperationsSuccess(int operationsSuccess) {
-        this.operationsSuccess = operationsSuccess;
+    public void setSuccessfulOperations(int successfulOperations) {
+        this.successfulOperations = successfulOperations;
     }
 
     public String getCvu() {
@@ -131,7 +129,7 @@ public class User {
 
     public void completedTransaction(int points){
         transactionsPoints += points;
-        operationsSuccess++;
+        successfulOperations++;
     }
 
     public void cancelledTransaction(){ /*For when the users cancells a transaction*/
@@ -184,7 +182,7 @@ public class User {
         }
 
         public UserBuilder withOperationsSuccess(int size) {
-            user.setOperationsSuccess(size);
+            user.setSuccessfulOperations(size);
             return this;
         }
 

@@ -21,18 +21,22 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public List<User> findAll(){
         return this.userRepository.findAll();
     }
 
+    @Transactional
     public User findById(Long id) throws UserException {
         return this.userRepository.findById(id).orElseThrow(() -> new UserException("El usuario no existe"));//Exception);
     }
 
+    @Transactional
     public User saveUser(User user) {
         return this.userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser(Long id) {
         this.userRepository.deleteById(id);
     }
