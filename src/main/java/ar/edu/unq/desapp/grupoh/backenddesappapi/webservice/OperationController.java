@@ -26,8 +26,8 @@ public class OperationController {
         this.operationService = operationService;
     }
 
-    @GetMapping("/operations") //TODO Fix this
-    public ResponseEntity<?> getActiveOperations(){
+    @GetMapping("/operations")
+    public ResponseEntity<?> getAllOperations(){
         return ResponseEntity.ok(operationService.findAll());
     }
 
@@ -36,11 +36,6 @@ public class OperationController {
     public ResponseEntity<?> findById(@PathVariable Long operationId) throws OperationException {
         Operation operation = this.operationService.findById(operationId);
         return ResponseEntity.status(HttpStatus.OK).body(operation);
-    }
-
-    @GetMapping("/operations/all")
-    public ResponseEntity<?> getAllOperations(){
-        return ResponseEntity.ok(operationService.findAll());
     }
 
     @PostMapping("/operations")

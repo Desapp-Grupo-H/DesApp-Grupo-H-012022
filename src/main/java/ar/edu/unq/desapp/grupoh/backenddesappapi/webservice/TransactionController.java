@@ -26,6 +26,11 @@ public class TransactionController {
     }
 
     @GetMapping("/transactions")
+    public ResponseEntity<?> getActiveTransactions(){
+        return ResponseEntity.ok(transactionService.findAllActive());
+    }
+
+    @GetMapping("/transactions/all")
     public ResponseEntity<?> getAllTransactions(){
         return ResponseEntity.ok(transactionService.findAll());
     }

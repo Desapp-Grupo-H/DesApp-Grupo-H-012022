@@ -1,15 +1,16 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.Operation;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.repository.OperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus.ONGOING;
 
 public class OperationService {
 
@@ -22,7 +23,7 @@ public class OperationService {
 
     @Transactional
     public Operation findById(Long operationId) throws OperationException {
-        return operationRepository.findById(operationId).orElseThrow(() -> new OperationException("La Transaccion no existe"));
+        return operationRepository.findById(operationId).orElseThrow(() -> new OperationException("The operation does not exist"));
     }
 
     @Transactional
@@ -48,4 +49,6 @@ public class OperationService {
         operation.cancelOperation();
         this.operationRepository.save(operation);
     }
+
+
 }

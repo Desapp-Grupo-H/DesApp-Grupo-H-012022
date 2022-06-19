@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 public class UserService {
@@ -28,7 +27,7 @@ public class UserService {
 
     @Transactional
     public User findById(Long id) throws UserException {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserException("El usuario no existe"));//Exception);
+        return this.userRepository.findById(id).orElseThrow(() -> new UserException("The User does not exist"));//Exception);
     }
 
     @Transactional

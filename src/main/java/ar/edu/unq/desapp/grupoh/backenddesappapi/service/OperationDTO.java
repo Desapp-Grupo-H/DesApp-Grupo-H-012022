@@ -14,6 +14,19 @@ public class OperationDTO {
     @NotNull(message = "user cannot be null")
     private User userInitOperation;
 
+    public TransactionIntention getTransactionIntention() {
+        return intention;
+    }
+    public void setTransactionIntention(TransactionIntention intention) {
+        this.intention = intention;
+    }
+
+    public User getUserInitOperation() {
+        return userInitOperation;
+    }
+    public void setUserInitOperation(User userInitOperation) {
+        this.userInitOperation = userInitOperation;
+    }
     public Operation createOperation() throws OperationException {
         return new Operation(intention, userInitOperation);
     }

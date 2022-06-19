@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TransactionStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
 
@@ -15,11 +16,13 @@ public class TransactionIntention {
     @Column(nullable = false)
     private double amount; //Amount of cryptocurrency available for buy/sell
     @Column(nullable = false)
-    private float price; //Cotization
+    private float price; //Quotation
     @Column(nullable = false)
     private CryptoCurrency crypto;
     @Column(nullable = false)
     private User user;
+    @Column(nullable = false)
+    private TransactionStatus status;
 
     public TransactionIntention(TypeTransaction typeTransaction, double amount, float price, CryptoCurrency crypto, User user){
         this.typeTransaction = typeTransaction;
@@ -27,6 +30,7 @@ public class TransactionIntention {
         this.price           = price;
         this.crypto          = crypto;
         this.user            = user;
+        this.status          = TransactionStatus.ACTIVE;
     }
 
     public TransactionIntention(){};
@@ -34,7 +38,6 @@ public class TransactionIntention {
     public TypeTransaction getTypeTransaction() {
         return typeTransaction;
     }
-
     public void setTypeTransaction(TypeTransaction typeTransaction) {
         this.typeTransaction = typeTransaction;
     }
@@ -42,7 +45,6 @@ public class TransactionIntention {
     public double getAmount() {
         return amount;
     }
-
     public void setAmount(double amount) {
         this.amount = amount;
     }
@@ -50,7 +52,6 @@ public class TransactionIntention {
     public float getPrice() {
         return price;
     }
-
     public void setPrice(float price) {
         this.price = price;
     }
@@ -58,7 +59,6 @@ public class TransactionIntention {
     public CryptoCurrency getCrypto() {
         return crypto;
     }
-
     public void setCrypto(CryptoCurrency crypto) {
         this.crypto = crypto;
     }
@@ -66,9 +66,15 @@ public class TransactionIntention {
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public TransactionStatus getStatus(){ return status;}
+    public void setStatus(TransactionStatus status){this.status = status;}
+
+    public void endIntention(){
+        this.setStatus(TransactionStatus.INACTIVE);
     }
 
     public static final class TransactionBuilder {

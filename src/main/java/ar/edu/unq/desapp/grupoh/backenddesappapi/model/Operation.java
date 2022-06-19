@@ -33,7 +33,7 @@ public class Operation {
     @Column(nullable = false)
     private OperationStatus status;
 
-    public Operation(TransactionIntention intention, User userInitOperation){
+    public Operation(TransactionIntention intention, User userInitOperation) throws OperationException{
         this.intention = intention;
         this.cryptoactive = this.intention.getCrypto();
         this.userInitOperation = userInitOperation;
@@ -113,7 +113,7 @@ public class Operation {
 
     public User getUserTransactionOperation() {return this.intention.getUser();}
     private boolean isInPriceRange(){
-        intention.getCrypto().compareCotization(intention.getPrice());
+        intention.getCrypto().compareQuotation(intention.getPrice());
         return true;
     }
 
