@@ -50,7 +50,6 @@ public class User {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,7 +57,6 @@ public class User {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -66,7 +64,6 @@ public class User {
     public String getLastname() {
         return lastname;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
@@ -74,7 +71,6 @@ public class User {
     public String getEmail() {
         return email;
     }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -82,7 +78,6 @@ public class User {
     public String getAddress() {
         return address;
     }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -90,7 +85,6 @@ public class User {
     public String getPassword() {
         return password;
     }
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -98,7 +92,6 @@ public class User {
     public String getWallet() {
         return wallet;
     }
-
     public void setWallet(String wallet) {
         this.wallet = wallet;
     }
@@ -106,7 +99,6 @@ public class User {
     public int getTransactionsPoints() {
         return transactionsPoints;
     }
-
     public void setTransactionsPoints(int transactionsPoints) {
         this.transactionsPoints = transactionsPoints;
     }
@@ -122,7 +114,6 @@ public class User {
     public String getCvu() {
         return cvu;
     }
-
     public void setCvu(String cvu) {
         this.cvu = cvu;
     }
@@ -139,8 +130,7 @@ public class User {
     public static final class UserBuilder {
         private final User user = new User();
 
-        private UserBuilder() {
-        }
+        private UserBuilder() {}
 
         public UserBuilder withName(String name){
             user.setName(name);
@@ -189,7 +179,6 @@ public class User {
         public User build() throws UserException {
             return new User(user.name, user.lastname, user.email, user.address, user.password, user.wallet, user.cvu);
         }
-
     }
 
     public static UserBuilder builder() {

@@ -16,7 +16,7 @@ public class TransactionDto {
     public static final String passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{6,}$";
     public static final String digitsRegex = "[0-9]+";
 
-
+//TODO FIX THIS
     @NotNull(message = "name cannot be null")
     @Length(min = 3, max = 30, message = "The name field should have at least 3 letters and a maximum of 30")
     private TypeTransaction typeTransaction;

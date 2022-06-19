@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
 
 import java.time.LocalDateTime;
 
@@ -19,24 +20,33 @@ public class Operation {
     private TransactionIntention intention; //Es la intencion que fue seleccionada por un usuario
 
     @ManyToOne
-    private CryptoCurrency cryptoactive = intention.getCrypto();
+    private CryptoCurrency cryptoactive;
     @Column(nullable = false)
     private User userInitOperation;//El usuario que eligio la intencio puede ser como Comprador o Vendedor
 
     @Column(nullable = false)
-    private LocalDateTime dateStarted = LocalDateTime.now();
+    private LocalDateTime dateStarted;
 
     @Column(nullable = false)
     private LocalDateTime dateCompleted; //Formato de LocalDateTime "2022-04-19T22:39:10"
 
     @Column(nullable = false)
-    private OperationStatus status = ONGOING;
+    private OperationStatus status;
+
+    public Operation(TransactionIntention intention, User userInitOperation){
+        this.intention = intention;
+        this.cryptoactive = this.intention.getCrypto();
+        this.userInitOperation = userInitOperation;
+        this.dateStarted = LocalDateTime.now();
+        this.status = ONGOING;
+
+    }
 
     public Operation() {
     }
 
     public void completeOperation(){
-        //Logica del tiempo puede ser mejor
+        this.setDateCompleted(LocalDateTime.now());
         if (isInPriceRange()){
             int diff = dateCompleted.getMinute() - dateStarted.getMinute();
             int points = (diff == 30) ? 10 : 5 ;
@@ -44,16 +54,14 @@ public class Operation {
             userInitOperation.completedTransaction(points);
             this.completeOperationSystem();
         }else{
-            cancelOperationSystem();
+            this.cancelOperationSystem();
         }
     }
 
-    public void cancelOperation(User user){ /*The user is the one that cancelled the transaction or nothing in case of a system cancellation*/
-        //Validar la diferencia con la cotizacion del cripto correspondiente ?
-        //Luego asignar/revisar quien fue/como se cancelo la operacion
-        //restar puntos a quien sea
-        //TODO hacer la logica de cancelar la operacion
-        user.cancelledTransaction();
+    public void cancelOperation(){ /*The user is the one that cancelled the transaction or nothing in case of a system cancellation*/
+        userInitOperation.cancelledTransaction();
+        intention.getUser().cancelledTransaction();
+        this.cancelOperationSystem();
     }
 
     private void cancelOperationSystem(){
@@ -66,7 +74,6 @@ public class Operation {
     public TransactionIntention getIntention() {
         return intention;
     }
-
     public void setIntention(TransactionIntention intention) {
         this.intention = intention;
     }
@@ -74,15 +81,14 @@ public class Operation {
     public User getUserInitOperation() {
         return userInitOperation;
     }
-
     public void setUserInitOperation(User userInitOperation) {
         this.userInitOperation = userInitOperation;
     }
 
+
     public LocalDateTime getDateStarted() {
         return dateStarted;
     }
-
     public void setDateStarted(LocalDateTime dateStarted) {
         this.dateStarted = dateStarted;
     }
@@ -90,7 +96,6 @@ public class Operation {
     public LocalDateTime getDateCompleted() {
         return dateCompleted;
     }
-
     public void setDateCompleted(LocalDateTime dateCompleted) {
         this.dateCompleted = dateCompleted;
     }
@@ -98,7 +103,6 @@ public class Operation {
     public OperationStatus getStatus() {
         return status;
     }
-
     public void setStatus(OperationStatus status) {
         this.status = status;
     }
@@ -106,8 +110,31 @@ public class Operation {
     public CryptoCurrency getCrypto(){
         return this.intention.getCrypto();
     }
+
+    public User getUserTransactionOperation() {return this.intention.getUser();}
     private boolean isInPriceRange(){
         intention.getCrypto().compareCotization(intention.getPrice());
         return true;
     }
+
+    public static final class OperationBuilder {
+        private final Operation operation = new Operation();
+
+        private OperationBuilder() {}
+
+        public OperationBuilder withIntention(TransactionIntention intention){
+            operation.setIntention(intention);
+            return this;
+        }
+        public OperationBuilder withUserInitOperation(User user){
+            operation.setUserInitOperation(user);
+            return this;
+        }
+
+        public Operation build() throws OperationException {
+            return new Operation(operation.intention, operation.userInitOperation);
+        }
+    }
+
+    public static OperationBuilder builder(){return new OperationBuilder();}
 }
