@@ -11,6 +11,8 @@ public class ResponseBinance {
         this.setPrice(price);
     }
 
+    public ResponseBinance(){}
+
     public Crypto getCrypto() {
         return crypto;
     }

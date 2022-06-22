@@ -18,13 +18,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api")
 public class OperationController {
-
-    private final OperationService operationService;
-
     @Autowired
-    public OperationController(OperationService operationService) {
-        this.operationService = operationService;
-    }
+    private  OperationService operationService;
 
     @GetMapping("/operations")
     public ResponseEntity<?> getAllOperations(){

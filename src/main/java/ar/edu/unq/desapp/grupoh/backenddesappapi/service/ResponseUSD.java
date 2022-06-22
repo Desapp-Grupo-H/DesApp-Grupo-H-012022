@@ -13,6 +13,8 @@ public class ResponseUSD {
         setDate(date);
     }
 
+    public ResponseUSD(){}
+
     private void setDate(LocalDateTime fecha) { this.date = date;}
     public LocalDateTime getDate(){return this.date;}
 

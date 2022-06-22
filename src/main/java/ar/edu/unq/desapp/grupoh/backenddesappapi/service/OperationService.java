@@ -5,6 +5,7 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.repository.OperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus.ONGOING;
 
+@Service
 public class OperationService {
 
     private final OperationRepository operationRepository;

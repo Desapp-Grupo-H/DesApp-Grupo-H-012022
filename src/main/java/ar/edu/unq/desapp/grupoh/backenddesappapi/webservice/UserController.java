@@ -16,13 +16,8 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*" ,methods = {RequestMethod.GET,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class UserController {
-
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){

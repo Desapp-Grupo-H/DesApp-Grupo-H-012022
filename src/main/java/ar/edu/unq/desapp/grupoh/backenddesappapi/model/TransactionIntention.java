@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionExc
 
 import javax.persistence.*;
 @Entity
+@Table(name = "transactionIntention")
 public class TransactionIntention {
 
     @Id
@@ -17,9 +18,11 @@ public class TransactionIntention {
     private double amount; //Amount of cryptocurrency available for buy/sell
     @Column(nullable = false)
     private float price; //Quotation
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cryptoCurrency_id")
     private CryptoCurrency crypto;
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
     @Column(nullable = false)
     private TransactionStatus status;

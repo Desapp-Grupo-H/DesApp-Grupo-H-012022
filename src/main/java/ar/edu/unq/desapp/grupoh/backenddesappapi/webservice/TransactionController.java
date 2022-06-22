@@ -17,13 +17,8 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*" ,methods = {RequestMethod.GET,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class TransactionController {
-
-    private final TransactionService transactionService;
-
     @Autowired
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
+    private TransactionService transactionService;
 
     @GetMapping("/transactions")
     public ResponseEntity<?> getActiveTransactions(){

@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "cryptoCurrency")
 public class CryptoCurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

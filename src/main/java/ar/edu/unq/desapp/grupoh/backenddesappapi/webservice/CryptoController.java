@@ -16,12 +16,9 @@ import java.util.List;
 @RequestMapping("/api")
 public class CryptoController {
 
-    private final CryptoCurrencyService cryptoCurrencyService;
-
     @Autowired
-    public CryptoController(CryptoCurrencyService cryptoCurrencyService){
-        this.cryptoCurrencyService = cryptoCurrencyService;
-    }
+    private CryptoCurrencyService cryptoCurrencyService;
+
 
     @GetMapping("/cryptocurrency")
     public List<CryptoCurrency> index(){

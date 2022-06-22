@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 
@@ -9,19 +10,23 @@ import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationSta
 import javax.persistence.*;
 
 @Entity
+@Table(name = "operation")
 public class Operation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    @OneToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "transactionIntention_id")
     private TransactionIntention intention; //Es la intencion que fue seleccionada por un usuario
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cryptoCurrency_id")
     private CryptoCurrency cryptoactive;
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User userInitOperation;//El usuario que eligio la intencio puede ser como Comprador o Vendedor
 
     @Column(nullable = false)
