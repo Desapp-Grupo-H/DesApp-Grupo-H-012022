@@ -33,7 +33,7 @@ public class CryptoCurrencyService {
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + crypto.name();
         ResponseBinance responseBinance = restTemplate.getForObject(url, ResponseBinance.class);
         ResponseUSD responseUSD = getUSDToPesos();
-        Float price = Float.valueOf(Objects.requireNonNull(responseBinance).getPrice()) * Float.valueOf(responseUSD.getSale());
+        Float price = Float.valueOf(Objects.requireNonNull(responseBinance).getPrice()) * Float.valueOf(responseUSD.getVenta());
         return new CryptoCurrency(crypto, price);
     }
     @Transactional
