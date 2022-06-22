@@ -25,8 +25,8 @@ sonarqube {
 		property "sonar.host.url", "https://sonarcloud.io"
 		property "sonar.projectName", "CriptoP2P"
 		property "sonar.projectVersion", 1.0
-		property "sonar.coverage.jacoco.xmlReportPaths", "app/build/jacoco/jacoco.xml"
-		property "sonar.junit.reportsPath", "app/build/test-results/*/TEST-*.xml"
+		property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+		property "sonar.junit.reportsPath", "build/test/test/*/TEST-*.xml"
 	}
 }
 
