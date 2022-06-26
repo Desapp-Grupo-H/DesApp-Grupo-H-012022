@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects;
 
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -6,15 +6,17 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
 @Aspect
 @Component
-public class LogExecutionTimeAspectAnnotation {
+@Order(0)
+public class LogExecutionTimeAspectAnnotation  {
     private Logger logger = LoggerFactory.getLogger(LogExecutionTimeAspectAnnotation.class);
 
-    @Around("annotation(Log)")
+    @Around("@annotation(LogExecutionTime)")
     public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
         logger.info("/////// Log Execution Time");
         String signature = joinPoint.getSignature().toShortString();

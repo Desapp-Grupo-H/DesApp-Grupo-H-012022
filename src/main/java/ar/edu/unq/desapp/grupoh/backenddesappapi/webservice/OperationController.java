@@ -6,6 +6,7 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationAction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation.OperationDTO;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation.OperationService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecutionTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,16 @@ public class OperationController {
     @Autowired
     private  OperationService operationService;
 
+    @Transactional
     @GetMapping("/operations")
+    @LogExecutionTime
     public ResponseEntity<?> getAllOperations(){
         return ResponseEntity.ok(operationService.findAll());
     }
 
     @Transactional
     @GetMapping("/operations/{operationId}")
+    @LogExecutionTime
     public ResponseEntity<?> findById(@PathVariable Long operationId) throws OperationException {
         /*
         try {
@@ -41,18 +45,23 @@ public class OperationController {
 
     @Transactional
     @GetMapping("/operations/{cryptoName}")
+    @LogExecutionTime
     public ResponseEntity<?> volumeOfOperations(@PathVariable String crypto){
         int volumeOfOperations = this.operationService.volumeOfOperations(crypto);
         return ResponseEntity.status(HttpStatus.OK).body(volumeOfOperations);
     }
 
+    @Transactional
     @PostMapping("/operations")
+    @LogExecutionTime
     public ResponseEntity<?> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws OperationException{
         Operation operation = operationService.saveOperation(operationDTO.createOperation());
         return ResponseEntity.status(HttpStatus.CREATED).body(operation);
     }
 
+    @Transactional
     @PutMapping("/operations/{operationId}")
+    @LogExecutionTime
     public ResponseEntity<?> forwardOperation(@PathVariable long operationId, @Valid @RequestBody OperationAction action, @RequestHeader long userId) throws OperationException {
         operationService.actionOperation(operationId, action, userId);
         return ResponseEntity.status(HttpStatus.OK).build();
