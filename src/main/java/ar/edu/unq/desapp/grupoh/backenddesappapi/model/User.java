@@ -46,7 +46,7 @@ public class User {
         this.cvu = cvu;
     }
 
-    public User(){};
+    public User(){}
 
     public Long getId() {
         return id;
@@ -124,7 +124,7 @@ public class User {
         successfulOperations++;
     }
 
-    public void cancelledTransaction(){ /*For when the users cancells a transaction*/
+    public void cancelledTransaction(){ /*For when the users cancel a transaction*/
         transactionsPoints -= 20;
     }
 
@@ -133,10 +133,16 @@ public class User {
 
         private UserBuilder() {}
 
+        public UserBuilder withId(long id){
+            user.setId(id);
+            return this;
+        }
+
         public UserBuilder withName(String name){
             user.setName(name);
             return this;
         }
+
         public UserBuilder withLastname(String lastName){
             user.setLastname(lastName);
             return this;
@@ -178,7 +184,7 @@ public class User {
         }
 
         public User build() throws UserException {
-            return new User(user.name, user.lastname, user.email, user.address, user.password, user.wallet, user.cvu);
+            return user;
         }
     }
 

@@ -2,13 +2,9 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.CryptoCurrencyService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency.CryptoCurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,10 +22,18 @@ public class CryptoController {
     }
 
     @GetMapping("/cryptocurrency/{crypto}")
-    public CryptoCurrency last(@PathVariable String crypto){
-        return cryptoCurrencyService.getCryptoCurrency(Crypto.valueOf(crypto));
+    public CryptoCurrency lastFor(@PathVariable String crypto){
+        return cryptoCurrencyService.getCryptoCurrency(crypto);
     }
 
+    @GetMapping("/cryptocurrency/last")
+    public List<CryptoCurrency> last(){
+        return cryptoCurrencyService.getLastCryptoCurrency();
+    }
 
+    @PostMapping("/cryptocurrency/update")
+    public List<CryptoCurrency> updateAllCryptos(){
+        return cryptoCurrencyService.updateAllCryptos();
+    }
 
 }

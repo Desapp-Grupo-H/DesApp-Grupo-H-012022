@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service.user;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 
     private final UserRepository userRepository;
 
@@ -21,21 +21,34 @@ public class UserService {
     }
 
     @Transactional
+    @Override
     public List<User> findAll(){
         return this.userRepository.findAll();
     }
 
     @Transactional
+    @Override
     public User findById(Long id) throws UserException {
         return this.userRepository.findById(id).orElseThrow(() -> new UserException("The User does not exist"));//Exception);
     }
 
     @Transactional
-    public User saveUser(User user) {
+    @Override
+    public User saveUser(UserDTO userDTO) throws UserException {
+        User user = User.builder()
+                .withName(userDTO.getName())
+                .withLastname(userDTO.getLastName())
+                .withEmail(userDTO.getEmail())
+                .withPassword(userDTO.getPassword())
+                .withAddress(userDTO.getAddress())
+                .withCvu(userDTO.getCvu())
+                .withWallet(userDTO.getWalletAddress())
+                .build();
         return this.userRepository.save(user);
     }
 
     @Transactional
+    @Override
     public void deleteUser(Long id) {
         this.userRepository.deleteById(id);
     }

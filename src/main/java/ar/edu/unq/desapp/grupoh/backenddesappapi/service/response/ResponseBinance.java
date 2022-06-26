@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service.response;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
 

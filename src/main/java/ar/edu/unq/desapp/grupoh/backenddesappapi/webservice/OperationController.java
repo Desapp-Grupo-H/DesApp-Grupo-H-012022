@@ -2,11 +2,10 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.Operation;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationAction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.OperationDTO;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.OperationService;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.TransactionService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation.OperationDTO;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,26 +28,33 @@ public class OperationController {
     @Transactional
     @GetMapping("/operations/{operationId}")
     public ResponseEntity<?> findById(@PathVariable Long operationId) throws OperationException {
+        /*
+        try {
+            Operation operation = this.operationService.findById(operationId);
+        }catch(OperationException exception){
+
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(operation);*/
         Operation operation = this.operationService.findById(operationId);
         return ResponseEntity.status(HttpStatus.OK).body(operation);
     }
 
+    @Transactional
+    @GetMapping("/operations/{cryptoName}")
+    public ResponseEntity<?> volumeOfOperations(@PathVariable String crypto){
+        int volumeOfOperations = this.operationService.volumeOfOperations(crypto);
+        return ResponseEntity.status(HttpStatus.OK).body(volumeOfOperations);
+    }
+
     @PostMapping("/operations")
     public ResponseEntity<?> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws OperationException{
-        Operation operation = operationDTO.createOperation();
-        operationService.saveOperation(operation);
+        Operation operation = operationService.saveOperation(operationDTO.createOperation());
         return ResponseEntity.status(HttpStatus.CREATED).body(operation);
     }
 
-    @PutMapping("/operations/accept/{operationId}")
-    public ResponseEntity<?> acceptOperation(@PathVariable long operationId) throws OperationException {
-        operationService.acceptOperation(operationId);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
-
-    @PutMapping("/operations/cancel/{operationId}")
-    public ResponseEntity<?> cancelOperation(@PathVariable long operationId) throws OperationException {
-        operationService.declineOperation(operationId);
+    @PutMapping("/operations/{operationId}")
+    public ResponseEntity<?> forwardOperation(@PathVariable long operationId, @Valid @RequestBody OperationAction action, @RequestHeader long userId) throws OperationException {
+        operationService.actionOperation(operationId, action, userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

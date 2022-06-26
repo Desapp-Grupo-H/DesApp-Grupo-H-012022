@@ -2,7 +2,6 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TransactionStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
 
 import javax.persistence.*;
 @Entity
@@ -36,7 +35,7 @@ public class TransactionIntention {
         this.status          = TransactionStatus.ACTIVE;
     }
 
-    public TransactionIntention(){};
+    public TransactionIntention(){}
 
     public TypeTransaction getTypeTransaction() {
         return typeTransaction;
@@ -80,6 +79,21 @@ public class TransactionIntention {
         this.setStatus(TransactionStatus.INACTIVE);
     }
 
+    public Boolean isBuy(){
+        return this.typeTransaction == TypeTransaction.BUY;
+    }
+
+    public Boolean isSell(){
+        return this.typeTransaction == TypeTransaction.SELL;
+    }
+
+    public void reduceAvailableAmount(double amount){
+        setAmount(this.getAmount() - amount);
+        if (this.amount == 0){
+            endIntention();
+        }
+    }
+
     public static final class TransactionBuilder {
 
         private final TransactionIntention transaction = new TransactionIntention();
@@ -112,8 +126,14 @@ public class TransactionIntention {
             return this;
         }
 
-        public TransactionIntention build() throws TransactionException {
+        public TransactionIntention build() {
             return new TransactionIntention(transaction.typeTransaction, transaction.amount, transaction.price, transaction.crypto, transaction.user);
         }
     }
+
+    public static TransactionIntention.TransactionBuilder builder() {
+        return new TransactionIntention.TransactionBuilder();
+    }
+
+
 }

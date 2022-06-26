@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.Operation;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
@@ -14,20 +14,30 @@ public class OperationDTO {
     @NotNull(message = "user cannot be null")
     private User userInitOperation;
 
+    @NotNull(message = "amount cannot be null")
+    private double amount;
+
     public TransactionIntention getTransactionIntention() {
-        return intention;
+        return this.intention;
     }
     public void setTransactionIntention(TransactionIntention intention) {
         this.intention = intention;
     }
 
     public User getUserInitOperation() {
-        return userInitOperation;
+        return this.userInitOperation;
     }
     public void setUserInitOperation(User userInitOperation) {
         this.userInitOperation = userInitOperation;
     }
+
+    public double getAmount() {
+        return this.amount;
+    }
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
     public Operation createOperation() throws OperationException {
-        return new Operation(intention, userInitOperation);
+        return new Operation(intention, userInitOperation, amount);
     }
 }

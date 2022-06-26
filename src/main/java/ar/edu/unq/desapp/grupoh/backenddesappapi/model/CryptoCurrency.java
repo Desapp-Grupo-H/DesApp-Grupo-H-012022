@@ -3,6 +3,8 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,8 +13,9 @@ public class CryptoCurrency {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @NotNull
     private Crypto crypto;
+    @NotNull
     private Float price;
     private LocalDateTime date;
 
@@ -20,6 +23,14 @@ public class CryptoCurrency {
         this.setDate(LocalDateTime.now());
         this.setCrypto(crypto);
         this.setPrice(price);
+    }
+
+
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Crypto getCrypto() {

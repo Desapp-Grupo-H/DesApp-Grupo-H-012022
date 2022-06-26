@@ -2,8 +2,8 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.TransactionDto;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.TransactionService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.transaction.TransactionDTO;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.transaction.TransactionService;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +32,13 @@ public class TransactionController {
 
     @GetMapping("/transactions/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) throws TransactionException {
-        return ResponseEntity.status(HttpStatus.OK).body(this.transactionService.findById(id));
+        TransactionIntention transaction = this.transactionService.findById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(transaction);
     }
 
     @PostMapping("/transactions")
-    public ResponseEntity<?> register(@Valid @RequestBody TransactionDto transactionDto) throws TransactionException {
-        TransactionIntention transaction = transactionDto.createTransaction();
-        transactionService.saveTransaction(transaction);
-        return ResponseEntity.status(HttpStatus.CREATED).body(transactionDto);
+    public ResponseEntity<?> register(@Valid @RequestBody TransactionDTO transactionDto) throws TransactionException {
+        TransactionIntention transaction =transactionService.saveTransaction(transactionDto.createTransaction());
+        return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
     }
 }

@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service.user;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-public class UserDto {
+public class UserDTO {
 
     public static final String passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{6,}$";
     public static final String digitsRegex = "[0-9]+";
@@ -46,56 +46,102 @@ public class UserDto {
     private String walletAddress;
 
     public String getName() {
-        return name;
+        return this.name;
     }
     public void setName(String name) {
         this.name = name;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
     public void setEmail(String email) {
         this.email = email;
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
     public void setAddress(String address) {
         this.address = address;
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
     public void setPassword(String password) {
         this.password = password;
     }
 
     public String getCvu() {
-        return cvu;
+        return this.cvu;
     }
     public void setCvu(String cvu) {
         this.cvu = cvu;
     }
 
     public String getWalletAddress() {
-        return walletAddress;
+        return this.walletAddress;
     }
     public void setWalletAddress(String walletAddress) {
         this.walletAddress = walletAddress;
     }
 
-    public User createUser() throws UserException {
-        return new User(name,  lastName,  email,  address,  password,  walletAddress,  cvu);
+    public static UserDTOBuilder builder() {
+        return new UserDTOBuilder();
     }
 
+    public static final class UserDTOBuilder {
+        private UserDTO newUserDTO;
+
+        private UserDTOBuilder() {
+            newUserDTO = new UserDTO();
+        }
+
+        public UserDTOBuilder name(String name) {
+            newUserDTO.setName(name);
+            return this;
+        }
+
+        public UserDTOBuilder surname(String lastName) {
+            newUserDTO.setLastName(lastName);
+            return this;
+        }
+
+        public UserDTOBuilder email(String email) {
+            newUserDTO.setEmail(email);
+            return this;
+        }
+
+        public UserDTOBuilder address(String address) {
+            newUserDTO.setAddress(address);
+            return this;
+        }
+
+        public UserDTOBuilder password(String password) {
+            newUserDTO.setPassword(password);
+            return this;
+        }
+
+        public UserDTOBuilder cvu(String cvu) {
+            newUserDTO.setCvu(cvu);
+            return this;
+        }
+
+        public UserDTOBuilder walletAddress(String walletAddress) {
+            newUserDTO.setWalletAddress(walletAddress);
+            return this;
+        }
+
+        public UserDTO build() {
+            return newUserDTO;
+        }
+    }
 }

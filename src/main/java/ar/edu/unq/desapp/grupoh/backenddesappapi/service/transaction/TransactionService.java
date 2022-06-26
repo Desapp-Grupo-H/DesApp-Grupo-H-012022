@@ -1,4 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service.transaction;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.TransactionException;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TransactionStatus.ACTIVE;
 
 @Service
-public class TransactionService {
+public class TransactionService implements ITransactionService{
 
     private final TransactionRepository transactionRepository;
 
@@ -23,21 +23,25 @@ public class TransactionService {
     }
 
     @Transactional
+    @Override
     public List<TransactionIntention> findAll(){
         return this.transactionRepository.findAll();
     }
 
     @Transactional
+    @Override
     public TransactionIntention findById(Long id) throws TransactionException {
         return this.transactionRepository.findById(id).orElseThrow(() -> new TransactionException("The transaction does not exist"));//Exception);
     }
 
     @Transactional
+    @Override
     public TransactionIntention saveTransaction(TransactionIntention transaction) {
         return this.transactionRepository.save(transaction);
     }
 
     @Transactional
+    @Override
     public List<TransactionIntention> findAllActive(){
         List<TransactionIntention> transactions = transactionRepository.findAll();
         return transactions.stream().filter(transaction -> transaction.getStatus() == ACTIVE).collect(Collectors.toList());

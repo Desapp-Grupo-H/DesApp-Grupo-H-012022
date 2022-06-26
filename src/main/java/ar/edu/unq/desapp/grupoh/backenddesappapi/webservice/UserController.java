@@ -3,8 +3,8 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.UserDto;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.UserService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.user.IUserService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.user.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*" ,methods = {RequestMethod.GET,RequestMethod.DELETE,RequestMethod.PUT,RequestMethod.POST})
 public class UserController {
     @Autowired
-    private UserService userService;
+    private IUserService userService;
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
@@ -31,10 +31,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<?> register(@Valid @RequestBody UserDto userDto) throws UserException {
-        User user = userDto.createUser();
-        userService.saveUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDto);
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDto) throws UserException {
+        User user = userService.saveUser(userDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @DeleteMapping("/users/{id}")

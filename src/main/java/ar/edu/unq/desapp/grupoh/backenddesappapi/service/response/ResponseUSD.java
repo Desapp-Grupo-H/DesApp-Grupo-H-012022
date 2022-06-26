@@ -1,6 +1,4 @@
-package ar.edu.unq.desapp.grupoh.backenddesappapi.service;
-
-import org.hibernate.type.LocalDateType;
+package ar.edu.unq.desapp.grupoh.backenddesappapi.service.response;
 
 import java.time.LocalDateTime;
 
