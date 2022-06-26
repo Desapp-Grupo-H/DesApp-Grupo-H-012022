@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 public class TransactionDTO {
 // TODO FIX THIS
     @NotNull(message = "the Transaction type cannot be null")
-    @Length(min = 3, max = 30, message = "The name field should have at least 3 letters and a maximum of 30")
     private TypeTransaction typeTransaction;
 
     @NotNull(message = "The amount cannot be null")

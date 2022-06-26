@@ -10,7 +10,6 @@ public class UserTests {
         return User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAddress("1234567891").withPassword("123123").build();
     }
 
-
     @Test
     public void anUserHasNameLastNameAndEmail() throws UserException{
         User user = anUser();
@@ -47,13 +46,10 @@ public class UserTests {
     @Test
     public void anUserHasInvalidCvu() {
         UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAddress("1234567891").withPassword("123123").withCvu("1312131231312322").build();
+            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313122").withWallet("12345678").withAddress("1234567891").withPassword("123123").build();
         });
-
         String actualMessage = error.getMessage();
-
         assertTrue(actualMessage.contains("Cvu not valid"));
-
     }
 
 

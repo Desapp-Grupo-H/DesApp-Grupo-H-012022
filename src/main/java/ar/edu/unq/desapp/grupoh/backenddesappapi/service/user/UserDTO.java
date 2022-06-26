@@ -41,7 +41,7 @@ public class UserDTO {
     private String cvu;
 
     @NotNull(message = "walletAddress cannot be null")
-    @Length(min = 8, max = 8, message = "The walletAddress field should have 22 length")
+    @Length(min = 8, max = 8, message = "The walletAddress field should have 8 length")
     @Pattern(regexp = digitsRegex, message = "The walletAddress field should only have digits")
     private String walletAddress;
 
