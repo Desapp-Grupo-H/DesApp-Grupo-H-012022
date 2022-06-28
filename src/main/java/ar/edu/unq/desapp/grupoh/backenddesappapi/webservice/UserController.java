@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -21,36 +22,49 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @Transactional
     @GetMapping("/users")
     @LogExecutionTime
     public ResponseEntity<?> getAllUsers(){
-        return ResponseEntity.ok(userService.findAll());
+        try {
+            List<User> users = userService.findAll();
+            return ResponseEntity.ok().body(users);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
-    @Transactional
     @GetMapping("/users/{id}")
     @LogExecutionTime
-    public ResponseEntity<?> findById(@PathVariable Long id) throws UserException {
-        User user = this.userService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<?> findById(@PathVariable Long id){
+        //User user = this.userService.findById(id);
+        //return ResponseEntity.status(HttpStatus.OK).body(user);
+        try {
+            User user = this.userService.findById(id);
+            return ResponseEntity.ok().body(user);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
-
-    @Transactional
     @PostMapping("/users")
     @LogExecutionTime
     public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDto) throws UserException {
-        User user = userService.saveUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        try {
+            User user = userService.saveUser(userDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
-
-    @Transactional
     @DeleteMapping("/users/{id}")
     @LogExecutionTime
     public ResponseEntity<?> delete(@PathVariable Long id) throws UserException {
-        userService.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

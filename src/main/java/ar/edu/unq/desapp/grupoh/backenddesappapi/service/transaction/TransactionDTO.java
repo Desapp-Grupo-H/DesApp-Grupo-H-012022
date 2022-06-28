@@ -2,8 +2,8 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.service.transaction;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.DecimalMin;
@@ -66,6 +66,42 @@ public class TransactionDTO {
 
     public TransactionIntention createTransaction() {
         return new TransactionIntention(typeTransaction, amount, price, crypto, user);
+    }
+    public static final class TransactionDTOBuilder {
+        private TransactionDTO newTransactionDTO;
+
+        private TransactionDTOBuilder() {
+            newTransactionDTO = new TransactionDTO();
+        }
+
+        public TransactionDTOBuilder withTypeTransaction(TypeTransaction typeTransaction) {
+            newTransactionDTO.setType(typeTransaction);
+            return this;
+        }
+
+        public TransactionDTOBuilder withAmount(double amount) {
+            newTransactionDTO.setAmount(amount);
+            return this;
+        }
+
+        public TransactionDTOBuilder withPrice(long price) {
+            newTransactionDTO.setPrice(price);
+            return this;
+        }
+
+        public TransactionDTOBuilder withCrypto(CryptoCurrency crypto) {
+            newTransactionDTO.setCryptoAddress(crypto);
+            return this;
+        }
+
+        public TransactionDTOBuilder withUser(User user) {
+            newTransactionDTO.setUser(user);
+            return this;
+        }
+
+        public TransactionDTO build() {
+            return newTransactionDTO;
+        }
     }
 
 }

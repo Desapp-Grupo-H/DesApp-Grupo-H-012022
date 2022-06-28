@@ -14,6 +14,7 @@ public class UserDTO {
     public static final String passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{6,}$";
     public static final String digitsRegex = "[0-9]+";
 
+    private long id;
 
     @NotNull(message = "name cannot be null")
     @Length(min = 3, max = 30, message = "The name field should have at least 3 letters and a maximum of 30")
@@ -44,6 +45,13 @@ public class UserDTO {
     @Length(min = 8, max = 8, message = "The walletAddress field should have 8 length")
     @Pattern(regexp = digitsRegex, message = "The walletAddress field should only have digits")
     private String walletAddress;
+
+    public long getId() {
+        return this.id;
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return this.name;

@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
+
 
 @Aspect
 @Component

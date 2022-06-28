@@ -5,5 +5,4 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CryptoCurrencyRepository extends JpaRepository<CryptoCurrency, Long> {
-    CryptoCurrencyRepository findByCrypto(Crypto crypto);
 }

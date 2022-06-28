@@ -2,12 +2,14 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency.CryptoCurrencyService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency.ICryptoCurrencyService;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecutionTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,34 +17,56 @@ import java.util.List;
 public class CryptoController {
 
     @Autowired
-    private CryptoCurrencyService cryptoCurrencyService;
+    private ICryptoCurrencyService cryptoCurrencyService;
 
-    @Transactional
     @GetMapping("/cryptocurrency")
     @LogExecutionTime
     public List<CryptoCurrency> index(){
         return cryptoCurrencyService.findAll();
     }
 
-    @Transactional
     @GetMapping("/cryptocurrency/{crypto}")
     @LogExecutionTime
-    public CryptoCurrency lastFor(@PathVariable String crypto){
-        return cryptoCurrencyService.getCryptoCurrency(crypto);
+    public ResponseEntity<?> lastFor(@PathVariable String crypto){
+        try {
+            CryptoCurrency cryptoCurrency = cryptoCurrencyService.findCryptoValueByName(crypto);
+            return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrency);
+        }catch(Exception exception){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @Transactional
     @GetMapping("/cryptocurrency/last")
     @LogExecutionTime
-    public List<CryptoCurrency> last(){
-        return cryptoCurrencyService.getLastCryptoCurrency();
+    public ResponseEntity<?> last(){
+        try {
+            List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.getLastCryptoCurrency();
+            return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencies);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @Transactional
     @PostMapping("/cryptocurrency/update")
     @LogExecutionTime
-    public List<CryptoCurrency> updateAllCryptos(){
-        return cryptoCurrencyService.updateAllCryptos();
+    public ResponseEntity<?> updateAllCryptos(){
+        try {
+            List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.updateAllCryptos();
+            return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencies);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
+    @GetMapping("/cryptocurrency/{crypto}/between")
+    @LogExecutionTime
+    public ResponseEntity<?> cryptoCurrencyBetween(@PathVariable String crypto, @Valid @RequestBody DateRange dateRange){
+        try {
+            List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.cryptoBetween(crypto, dateRange.getStartDate(), dateRange.getEndDate());
+            return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencies);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
+

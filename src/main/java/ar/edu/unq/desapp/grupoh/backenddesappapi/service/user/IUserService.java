@@ -18,4 +18,10 @@ public interface IUserService {
 
     @Transactional
     void deleteUser(Long id);
+
+    @Transactional
+    User findByEmail(String email)/*
+    public void loginUser(){}
+
+    public void logOut(){}*/;
 }

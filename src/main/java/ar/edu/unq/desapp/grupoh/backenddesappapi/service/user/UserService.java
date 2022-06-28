@@ -53,9 +53,11 @@ public class UserService implements IUserService{
         this.userRepository.deleteById(id);
     }
 
-   /* public User findByEmail(String email){
-        return this.userRepository.findBy();
-    }
+    @Transactional
+    @Override
+    public User findByEmail(String email){
+        return findAll().stream().filter(user -> user.getEmail() == email).findAny().orElse(null);
+    }/*
     public void loginUser(){}
 
     public void logOut(){}*/

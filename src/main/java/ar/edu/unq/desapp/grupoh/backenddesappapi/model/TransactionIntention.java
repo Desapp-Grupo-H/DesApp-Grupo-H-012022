@@ -44,6 +44,14 @@ public class TransactionIntention {
         this.typeTransaction = typeTransaction;
     }
 
+
+    public Long getId(){
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public double getAmount() {
         return amount;
     }
@@ -128,6 +136,11 @@ public class TransactionIntention {
 
         public TransactionIntention build() {
             return new TransactionIntention(transaction.typeTransaction, transaction.amount, transaction.price, transaction.crypto, transaction.user);
+        }
+
+        public TransactionBuilder withId(Long id) {
+            transaction.setId(id);
+            return this;
         }
     }
 

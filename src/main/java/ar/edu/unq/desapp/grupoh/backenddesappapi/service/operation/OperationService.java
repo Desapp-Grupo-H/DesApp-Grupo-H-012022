@@ -62,7 +62,11 @@ public class OperationService implements IOperationService {
     @Transactional
     @Override
     public int volumeOfOperations(String cryptoName) {
-        List<Operation> operations = this.operationRepository.findAll();
-        return (int) operations.stream().filter(operation -> operation.isComplete() && operation.getCrypto().getCrypto().name() == cryptoName).collect(Collectors.toList()).size();
+        List<Operation> operations = findAll();
+        return (int) operations
+                .stream()
+                .filter(operation -> operation.isComplete() && operation.getCrypto().getCrypto().name() == cryptoName)
+                .collect(Collectors.toList())
+                .size();
     }
 }
