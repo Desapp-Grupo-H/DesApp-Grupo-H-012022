@@ -1,9 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.user;
 
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
 import org.hibernate.validator.constraints.Length;
-
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;

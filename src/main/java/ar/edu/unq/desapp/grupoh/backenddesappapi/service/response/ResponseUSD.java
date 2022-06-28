@@ -16,10 +16,10 @@ public class ResponseUSD {
 
     public LocalDateTime getFecha(){return this.fecha;}
 
-    private void setCompra(Float compra) {this.compra = compra;}
+    public void setCompra(Float compra) {this.compra = compra;}
     public Float getCompra(){return this.compra;}
 
-    private void setVenta(Float venta) {this.venta = venta;}
+    public void setVenta(Float venta) {this.venta = venta;}
     public Float getVenta(){return this.venta;}
 
 }

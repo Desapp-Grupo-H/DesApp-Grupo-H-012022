@@ -57,8 +57,5 @@ public class UserService implements IUserService{
     @Override
     public User findByEmail(String email){
         return findAll().stream().filter(user -> user.getEmail().equals(email)).findAny().orElse(null);
-    }/*
-    public void loginUser(){}
-
-    public void logOut(){}*/
+    }
 }

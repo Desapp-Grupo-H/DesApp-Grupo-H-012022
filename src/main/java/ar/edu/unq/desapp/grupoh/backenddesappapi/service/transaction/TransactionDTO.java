@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
-public class TransactionDTO {
+public class    TransactionDTO {
 // TODO FIX THIS
     @NotNull(message = "the Transaction type cannot be null")
     private TypeTransaction typeTransaction;
@@ -53,7 +53,7 @@ public class TransactionDTO {
     public CryptoCurrency getCrypto() {
         return this.crypto;
     }
-    public void setCryptoAddress(CryptoCurrency crypto) {
+    public void setCrypto(CryptoCurrency crypto) {
         this.crypto = crypto;
     }
 
@@ -90,7 +90,7 @@ public class TransactionDTO {
         }
 
         public TransactionDTOBuilder withCrypto(CryptoCurrency crypto) {
-            newTransactionDTO.setCryptoAddress(crypto);
+            newTransactionDTO.setCrypto(crypto);
             return this;
         }
 

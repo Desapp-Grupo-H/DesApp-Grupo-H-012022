@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 
@@ -23,11 +25,11 @@ public class LogExecutionTimeAspectAnnotation  {
         logger.info("/////// Log Execution Time");
         String signature = joinPoint.getSignature().toShortString();
         logger.info("/////// Method: " + signature);
-        logger.info("/////// Args: " + joinPoint.getArgs());
+        logger.info("/////// Args: " + Arrays.toString(joinPoint.getArgs()));
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;
-        logger.info("/////// " + signature + " executed in " + executionTime + "ms");
+        logger.info(String.format("/////// %1$s executed in %2$s ms", signature, executionTime));
     return  proceed;
     }
 }
