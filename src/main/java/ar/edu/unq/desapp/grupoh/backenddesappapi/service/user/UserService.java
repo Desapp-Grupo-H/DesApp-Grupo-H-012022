@@ -56,7 +56,7 @@ public class UserService implements IUserService{
     @Transactional
     @Override
     public User findByEmail(String email){
-        return findAll().stream().filter(user -> user.getEmail() == email).findAny().orElse(null);
+        return findAll().stream().filter(user -> user.getEmail().equals(email)).findAny().orElse(null);
     }/*
     public void loginUser(){}
 

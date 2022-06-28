@@ -24,7 +24,7 @@ public class OperationController {
 
     @GetMapping("/operations")
     @LogExecutionTime
-    public ResponseEntity<?> getAllOperations(){
+    public ResponseEntity<List<Operation>> getAllOperations(){
         try {
             List<Operation> operations = operationService.findAll();
             return ResponseEntity.status(HttpStatus.OK).body(operations);
@@ -36,7 +36,7 @@ public class OperationController {
 
     @GetMapping("/operations/{operationId}")
     @LogExecutionTime
-    public ResponseEntity<?> findById(@PathVariable Long operationId) throws OperationException {
+    public ResponseEntity<Operation> findById(@PathVariable Long operationId) throws OperationException {
         try {
             Operation operation = this.operationService.findById(operationId);
             return ResponseEntity.status(HttpStatus.OK).body(operation);
@@ -58,7 +58,7 @@ public class OperationController {
 
     @PostMapping("/operations")
     @LogExecutionTime
-    public ResponseEntity<?> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws OperationException{
+    public ResponseEntity<Operation> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws OperationException{
         try {
             Operation operation = operationService.saveOperation(operationDTO.createOperation());
             return ResponseEntity.status(HttpStatus.CREATED).body(operation);

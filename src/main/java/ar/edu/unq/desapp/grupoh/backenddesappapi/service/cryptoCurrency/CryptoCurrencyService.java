@@ -99,24 +99,20 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
         return cryptos;
     }
 
-    @Transactional
     private List<CryptoCurrency> findByCrypto(Crypto crypto){
         return cryptoCurrencyRepository.findAll().stream().filter(cryptoCurrency -> cryptoCurrency.getCrypto() == crypto).collect(Collectors.toList());
     }
 
-    @Transactional
     private ResponseBinance getBinanceResponse(String cryptoName) {
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + cryptoName;
         return restTemplate.getForObject(url, ResponseBinance.class);
     }
 
-    @Transactional
     private ResponseUSD getUSDResponse() {
         String url = "https://api-dolar-argentina.herokuapp.com/api/dolaroficial";
         return restTemplate.getForObject(url, ResponseUSD.class);
     }
 
-    @Transactional
     private CryptoCurrency binanceToModelCrypto(ResponseBinance binanceCryptoDTO) throws UserException {
         CryptoCurrency cryptoCurrency = CryptoCurrency.builder()
                 .withCryptoCurrency(binanceCryptoDTO.getSymbol())
@@ -126,7 +122,6 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
         return cryptoCurrency;
     }
 
-    @Transactional
     private ResponseBinance[] getBatchCryptoPrice(List<Crypto> cryptoList) {
         RestTemplate restTemplate = new RestTemplate();
         String cryptoSymbols = cryptoList.stream()

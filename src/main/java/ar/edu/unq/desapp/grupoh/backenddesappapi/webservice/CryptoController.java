@@ -27,7 +27,7 @@ public class CryptoController {
 
     @GetMapping("/cryptocurrency/{crypto}")
     @LogExecutionTime
-    public ResponseEntity<?> lastFor(@PathVariable String crypto){
+    public ResponseEntity<CryptoCurrency> lastFor(@PathVariable String crypto){
         try {
             CryptoCurrency cryptoCurrency = cryptoCurrencyService.findCryptoValueByName(crypto);
             return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrency);
@@ -38,7 +38,7 @@ public class CryptoController {
 
     @GetMapping("/cryptocurrency/last")
     @LogExecutionTime
-    public ResponseEntity<?> last(){
+    public ResponseEntity<List<CryptoCurrency>> last(){
         try {
             List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.getLastCryptoCurrency();
             return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencies);
@@ -49,7 +49,7 @@ public class CryptoController {
 
     @PostMapping("/cryptocurrency/update")
     @LogExecutionTime
-    public ResponseEntity<?> updateAllCryptos(){
+    public ResponseEntity<List<CryptoCurrency>> updateAllCryptos(){
         try {
             List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.updateAllCryptos();
             return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencies);
@@ -60,7 +60,7 @@ public class CryptoController {
 
     @GetMapping("/cryptocurrency/{crypto}/between")
     @LogExecutionTime
-    public ResponseEntity<?> cryptoCurrencyBetween(@PathVariable String crypto, @Valid @RequestBody DateRange dateRange){
+    public ResponseEntity<List<CryptoCurrency>> cryptoCurrencyBetween(@PathVariable String crypto, @Valid @RequestBody DateRange dateRange){
         try {
             List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.cryptoBetween(crypto, dateRange.getStartDate(), dateRange.getEndDate());
             return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrencies);

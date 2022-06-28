@@ -25,7 +25,7 @@ public class TransactionController {
 
     @GetMapping("/transactions")
     @LogExecutionTime
-    public ResponseEntity<?> getActiveTransactions(){
+    public ResponseEntity<List<TransactionIntention>> getActiveTransactions(){
         try{
             List<TransactionIntention> activeTransactions = transactionService.findAllActive();
             return ResponseEntity.ok(activeTransactions);
@@ -36,7 +36,7 @@ public class TransactionController {
 
     @GetMapping("/transactions/all")
     @LogExecutionTime
-    public ResponseEntity<?> getAllTransactions(){
+    public ResponseEntity<List<TransactionIntention>> getAllTransactions(){
         try{
             List<TransactionIntention> activeTransactions = transactionService.findAll();
             return ResponseEntity.ok(activeTransactions);
@@ -47,7 +47,7 @@ public class TransactionController {
 
     @GetMapping("/transactions/{id}")
     @LogExecutionTime
-    public ResponseEntity<?> findById(@PathVariable Long id) throws TransactionException {
+    public ResponseEntity<TransactionIntention> findById(@PathVariable Long id) throws TransactionException {
         try {
             TransactionIntention transaction = this.transactionService.findById(id);
             return ResponseEntity.status(HttpStatus.OK).body(transaction);
@@ -58,7 +58,7 @@ public class TransactionController {
 
     @PostMapping("/transactions")
     @LogExecutionTime
-    public ResponseEntity<?> register(@Valid @RequestBody TransactionDTO transactionDto) throws TransactionException {
+    public ResponseEntity<TransactionIntention> register(@Valid @RequestBody TransactionDTO transactionDto) throws TransactionException {
         try {
             TransactionIntention transaction = transactionService.saveTransaction(transactionDto.createTransaction());
             return ResponseEntity.status(HttpStatus.CREATED).body(transaction);

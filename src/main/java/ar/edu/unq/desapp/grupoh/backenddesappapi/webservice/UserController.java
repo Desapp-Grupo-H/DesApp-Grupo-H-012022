@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("/users")
     @LogExecutionTime
-    public ResponseEntity<?> getAllUsers(){
+    public ResponseEntity<List<User>> getAllUsers(){
         try {
             List<User> users = userService.findAll();
             return ResponseEntity.ok().body(users);
@@ -35,9 +35,7 @@ public class UserController {
 
     @GetMapping("/users/{id}")
     @LogExecutionTime
-    public ResponseEntity<?> findById(@PathVariable Long id){
-        //User user = this.userService.findById(id);
-        //return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<User> findById(@PathVariable Long id){
         try {
             User user = this.userService.findById(id);
             return ResponseEntity.ok().body(user);
@@ -48,7 +46,7 @@ public class UserController {
 
     @PostMapping("/users")
     @LogExecutionTime
-    public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDto) throws UserException {
+    public ResponseEntity<User> register(@Valid @RequestBody UserDTO userDto) throws UserException {
         try {
             User user = userService.saveUser(userDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
