@@ -1,16 +1,18 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import static ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationStatus.*;
 import javax.persistence.*;
 
 @Entity
 @Table(name = "operation")
-public class Operation {
+public class    Operation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +22,8 @@ public class Operation {
     @JoinColumn(name = "transactionIntention_id")
     private TransactionIntention intention; //The intention selected by the user
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cryptoCurrency_id")
-    private CryptoCurrency cryptoActive;
+    @Column(nullable = false)
+    private CryptoName cryptoName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -31,7 +32,6 @@ public class Operation {
     @Column(nullable = false)
     private LocalDateTime dateStarted;
 
-    @Column(nullable = false)
     private LocalDateTime dateCompleted; //LocalDateTime Format "2022-04-19T22:39:10"
 
     @Column(nullable = false)
@@ -42,7 +42,7 @@ public class Operation {
 
     public Operation(TransactionIntention intention, User userInitOperation, double amount) {
         this.intention = intention;
-        this.cryptoActive = this.intention.getCrypto();
+        this.cryptoName = this.intention.getCrypto();
         this.userInitOperation = userInitOperation;
         this.amount = amount;
         this.dateStarted = LocalDateTime.now();
@@ -52,18 +52,19 @@ public class Operation {
     public Operation() {
     }
 
-    public Operation completeOperation(Long userId) throws OperationException{
-        if (isWaitingFor(userId)){
+    public Operation completeOperation(User user, CryptoCurrency cryptoCurrency) throws OperationException{
+        if (isWaitingFor(user.getId())){
             this.setDateCompleted(LocalDateTime.now());
-            if (isInPriceRange()){
+            if (isInPriceRange(cryptoCurrency)){
                 int diff = dateCompleted.getMinute() - dateStarted.getMinute();
                 int points = (diff == 30) ? 10 : 5 ;
-                intention.getUser().completedTransaction(points);
                 intention.reduceAvailableAmount(this.amount);
-                userInitOperation.completedTransaction(points);
                 this.completeOperationSystem();
+                this.getUserInitOperation().completedTransaction(points);
+                this.getUserInitTransaction().completedTransaction(points);
             }else{
                 this.cancelOperationSystem();
+                throw new OperationException("Cannot complete Operation, price out of range");
             }
             return this;
         }else {
@@ -72,15 +73,20 @@ public class Operation {
 
     }
 
-    public Operation cancelOperation(Long userId) throws OperationException { /*The user is the one that cancelled the transaction or nothing in case of a system cancellation*/
-        if (userInitOperation.getId().equals(userId)){
-            userInitOperation.cancelledTransaction();
-            this.cancelOperationSystem();
-        } else if (intention.getUser().getId().equals(userId)) {
-            intention.getUser().cancelledTransaction();
+    private User getUserInitTransaction() {
+        return this.getIntention().getUser();
+    }
+
+    public Operation cancelOperation(User user) throws OperationException { /*The user is the one that cancelled the transaction or nothing in case of a system cancellation*/
+        if (this.canCancel(user)){
+            user.cancelledTransaction();
             this.cancelOperationSystem();
         }else{throw new OperationException("Cannot cancel operation");}
         return this;
+    }
+
+    private boolean canCancel(User user) {
+        return this.getUserInitTransaction().getId() == user.getId() || this.getUserInitOperation().getId() == user.getId();
     }
 
     private void cancelOperationSystem(){
@@ -93,7 +99,7 @@ public class Operation {
     public Long getId(){
         return this.id;
     }
-    public void setId(long id){
+    public void setId(Long id){
         this.id = id;
     }
     public TransactionIntention getIntention() {
@@ -138,24 +144,20 @@ public class Operation {
         this.status = status;
     }
 
-    public CryptoCurrency getCrypto(){
-        return this.cryptoActive;
+    public CryptoName getCrypto(){
+        return this.cryptoName;
     }
-    public void setCrypto(CryptoCurrency cryptoActive){
-        this.cryptoActive = cryptoActive;
-    }
-
-    public User getUserTransactionOperation() {return this.intention.getUser();}
-    private boolean isInPriceRange(){
-        return intention.getCrypto().compareQuotation(intention.getPrice());
+    public void setCrypto(CryptoName cryptoName){
+        this.cryptoName = cryptoName;
     }
 
-    public boolean canRealizeTransfer(Long userId) {
-        return this.getIntention().isBuy() && this.getIntention().getUser().getId().equals(userId);
+    public User getUserTransactionOperationId() {return this.intention.getUser();}
+    private boolean isInPriceRange(CryptoCurrency cryptoCurrency){
+        return cryptoCurrency.compareQuotation(intention.getPrice());
     }
 
-    public Operation awaitsConfirmation(Long userId) throws OperationException {
-        if (canRealizeTransfer(userId)){
+    public Operation awaitsConfirmation(User user) throws OperationException {
+        if (this.status == ONGOING && Objects.equals(this.getUserInitOperation().getId(), user.getId())){
             this.setStatus(WAITING);
             return this;
         }else {
@@ -164,7 +166,7 @@ public class Operation {
     }
 
     public boolean isWaitingFor(Long userId) {
-        return (this.status == WAITING && this.userInitOperation.getId().equals(userId));
+        return (this.status == WAITING && this.userInitOperation.getId() == userId);
     }
 
     public boolean isComplete() {

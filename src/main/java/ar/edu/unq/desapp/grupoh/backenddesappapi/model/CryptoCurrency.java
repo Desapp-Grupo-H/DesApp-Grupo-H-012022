@@ -1,7 +1,7 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.CryptoException;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,35 +10,37 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "cryptoCurrency")
 public class CryptoCurrency {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    private Crypto crypto;
+    private CryptoName cryptoName;
     @NotNull
     private Float price;
     private LocalDateTime date;
 
     public CryptoCurrency(){};
-    public CryptoCurrency(Crypto crypto, Float price){
+    public CryptoCurrency(CryptoName cryptoName, Float price){
         this.setDate(LocalDateTime.now());
-        this.setCrypto(crypto);
+        this.setCrypto(cryptoName);
         this.setPrice(price);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Crypto getCrypto() {
-        return crypto;
+    public CryptoName getCrypto() {
+        return cryptoName;
     }
-    public void setCrypto(Crypto crypto) {
-        this.crypto = crypto;
+    public void setCrypto(CryptoName cryptoName) {
+        this.cryptoName = cryptoName;
     }
 
     public Float getPrice() {
@@ -64,8 +66,8 @@ public class CryptoCurrency {
 
         private CryptoCurrencyBuilder() {}
 
-        public CryptoCurrencyBuilder withCryptoCurrency(Crypto crypto){
-            cryptoCurrency.setCrypto(crypto);
+        public CryptoCurrencyBuilder withCryptoCurrency(CryptoName cryptoName){
+            cryptoCurrency.setCrypto(cryptoName);
             return this;
         }
 
@@ -79,7 +81,7 @@ public class CryptoCurrency {
             return this;
         }
 
-        public CryptoCurrency build() throws UserException {
+        public CryptoCurrency build() throws CryptoException {
             return cryptoCurrency;
         }
     }

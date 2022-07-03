@@ -13,12 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService implements IUserService{
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @Transactional
     @Override
@@ -44,6 +40,7 @@ public class UserService implements IUserService{
                 .withCvu(userDTO.getCvu())
                 .withWallet(userDTO.getWalletAddress())
                 .build();
+
         return this.userRepository.save(user);
     }
 

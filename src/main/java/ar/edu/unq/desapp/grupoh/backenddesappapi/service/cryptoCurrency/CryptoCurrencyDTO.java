@@ -1,6 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency;
 
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -10,7 +10,7 @@ public class CryptoCurrencyDTO {
     private Long id;
 
     @NotNull
-    private Crypto crypto;
+    private CryptoName cryptoName;
     @NotNull
     private Float price;
     private LocalDateTime date;
@@ -23,11 +23,11 @@ public class CryptoCurrencyDTO {
         this.id = id;
     }
 
-    public Crypto getCrypto() {
-        return crypto;
+    public CryptoName getCrypto() {
+        return cryptoName;
     }
-    public void setCrypto(Crypto crypto) {
-        this.crypto = crypto;
+    public void setCrypto(CryptoName cryptoName) {
+        this.cryptoName = cryptoName;
     }
 
     public Float getPrice() {
@@ -60,8 +60,8 @@ public class CryptoCurrencyDTO {
             return this;
         }
 
-        public CryptoCurrencyDTOBuilder withCrypto(Crypto crypto) {
-            newCryptoCurrencyDTO.setCrypto(crypto);
+        public CryptoCurrencyDTOBuilder withCrypto(CryptoName cryptoName) {
+            newCryptoCurrencyDTO.setCrypto(cryptoName);
             return this;
         }
 
@@ -74,7 +74,6 @@ public class CryptoCurrencyDTO {
             newCryptoCurrencyDTO.setDate(date);
             return this;
         }
-
 
         public CryptoCurrencyDTO build() {
             return newCryptoCurrencyDTO;

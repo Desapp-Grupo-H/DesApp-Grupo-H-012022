@@ -1,13 +1,11 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.CryptoException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.repository.CryptoCurrencyRepository;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.response.ResponseBinance;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.response.ResponseUSD;
-import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecutionTimeAspectAnnotation;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,18 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import redis.clients.jedis.Jedis;
+//import redis.clients.jedis.Jedis;
 
 @Service
 @EnableScheduling
 public class CryptoCurrencyService implements ICryptoCurrencyService {
 
-    private final Jedis jedis = new Jedis("localhost", 6379);
+    //private final Jedis jedis = new Jedis("localhost", 6379);
     @Autowired
     private CryptoCurrencyRepository cryptoCurrencyRepository;
     private final RestTemplate restTemplate = new RestTemplate();
@@ -39,34 +36,35 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
 
     @Transactional
     @Override
-    public CryptoCurrency getCryptoCurrency(String cryptoName) {
-        Crypto crypto = Crypto.valueOf(cryptoName);
-        Float price = getBinanceResponse(cryptoName).getPrice() * getUSDResponse().getVenta();
-        return new CryptoCurrency(crypto, price);
+    public CryptoCurrency getCryptoCurrency(CryptoName cryptoName) {
+        Float binancePrice = this.getBinanceResponse(cryptoName).getPrice();
+        Float usdPrice = this.getUSDResponse().getVenta();
+        Float price = binancePrice * usdPrice;
+        return new CryptoCurrency(cryptoName, price);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public CryptoCurrency findCryptoValueByName(String name) {
-        CryptoCurrency cryptoCurrency = new CryptoCurrency(Crypto.valueOf(name), Float.parseFloat(jedis.get(name)));
-        return cryptoCurrency;
+    public CryptoCurrency findCryptoValueByName(CryptoName cryptoName) {
+        return cryptoCurrencyRepository.findAll()
+                .stream()
+                .filter(cryptoCurrencyCandidate -> cryptoCurrencyCandidate.getCrypto() == cryptoName)
+                .collect(Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(CryptoCurrency::getDate)), Optional::get));
     }
-
 
     @Transactional
     @Override
     public List<CryptoCurrency> getLastTenCryptoCurrency(String crypto) {
-        List<CryptoCurrency> cryptos = cryptoCurrencyRepository.findAll();
-        return cryptos;
+        return cryptoCurrencyRepository.findAll();
     }
 
     @Transactional
     @Override
     public List<CryptoCurrency> getLastCryptoCurrency() { //Return a list with the last of each CryptoCurrency stored
-        List<Crypto> cryptos = Arrays.asList(Crypto.values());
-        return cryptos
+        List<CryptoName> cryptoNames = Arrays.asList(CryptoName.values());
+        return cryptoNames
                 .stream()
-                .map (crypto -> Collections.max(findByCrypto(crypto), Comparator.comparing(c -> c.getDate())))
+                .map (crypto -> Collections.max(findByCrypto(crypto), Comparator.comparing(CryptoCurrency::getDate)))
                 .collect(Collectors.toList()) ;
     }
 
@@ -75,14 +73,14 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
     @Scheduled(cron = "0 0/10 * * * *")
     public List<CryptoCurrency> updateAllCryptos() {
         List<CryptoCurrency> cryptoCurrencyList = new ArrayList<>();
-        ResponseBinance[] binanceCryptoDTOS = getBatchCryptoPrice(List.of(Crypto.values()));
+        ResponseBinance[] binanceCryptoDTOS = getBatchCryptoPrice(List.of(CryptoName.values()));
         Arrays.stream(binanceCryptoDTOS).forEach(binanceCrypto -> {
             try {
                 CryptoCurrency crypto = binanceToModelCrypto(binanceCrypto);
                 cryptoCurrencyList.add(crypto);
-                jedis.set(crypto.getCrypto().name(), String.valueOf(crypto.getPrice()));
+                //jedis.set(crypto.getCrypto().name(), String.valueOf(crypto.getPrice()));
                 cryptoCurrencyRepository.save(crypto);
-            } catch (UserException e) {
+            } catch (CryptoException e) {
             }
         });
         return cryptoCurrencyList;
@@ -91,7 +89,7 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
     @Transactional
     @Override
     public List<CryptoCurrency> cryptoBetween(String cryptoName, LocalDateTime startDate, LocalDateTime endDate) {
-        Crypto crypto = Crypto.valueOf(cryptoName);
+        CryptoName crypto = CryptoName.valueOf(cryptoName);
         List<CryptoCurrency> cryptos = findByCrypto(crypto)
                 .stream()
                 .filter(cryptoCurrency -> cryptoCurrency.getDate().isBefore(ChronoLocalDateTime.from(endDate)) && cryptoCurrency.getDate().isAfter(ChronoLocalDateTime.from(startDate)))
@@ -99,12 +97,12 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
         return cryptos;
     }
 
-    private List<CryptoCurrency> findByCrypto(Crypto crypto){
-        return cryptoCurrencyRepository.findAll().stream().filter(cryptoCurrency -> cryptoCurrency.getCrypto() == crypto).collect(Collectors.toList());
+    private List<CryptoCurrency> findByCrypto(CryptoName cryptoName){
+        return cryptoCurrencyRepository.findAll().stream().filter(cryptoCurrency -> cryptoCurrency.getCrypto() == cryptoName).collect(Collectors.toList());
     }
 
-    private ResponseBinance getBinanceResponse(String cryptoName) {
-        String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + cryptoName;
+    private ResponseBinance getBinanceResponse(CryptoName cryptoName) {
+        String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + cryptoName.name();
         return restTemplate.getForObject(url, ResponseBinance.class);
     }
 
@@ -113,7 +111,7 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
         return restTemplate.getForObject(url, ResponseUSD.class);
     }
 
-    private CryptoCurrency binanceToModelCrypto(ResponseBinance binanceCryptoDTO) throws UserException {
+    private CryptoCurrency binanceToModelCrypto(ResponseBinance binanceCryptoDTO) throws CryptoException {
         CryptoCurrency cryptoCurrency = CryptoCurrency.builder()
                 .withCryptoCurrency(binanceCryptoDTO.getSymbol())
                 .withPrice(binanceCryptoDTO.getPrice())
@@ -122,9 +120,9 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
         return cryptoCurrency;
     }
 
-    private ResponseBinance[] getBatchCryptoPrice(List<Crypto> cryptoList) {
+    private ResponseBinance[] getBatchCryptoPrice(List<CryptoName> cryptoNameList) {
         RestTemplate restTemplate = new RestTemplate();
-        String cryptoSymbols = cryptoList.stream()
+        String cryptoSymbols = cryptoNameList.stream()
                 .map(crypto -> '\"' + crypto.name() + '\"')
                 .collect(Collectors.joining(",", "[", "]"));
 

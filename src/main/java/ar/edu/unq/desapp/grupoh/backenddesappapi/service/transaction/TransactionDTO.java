@@ -3,6 +3,7 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.service.transaction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
 import org.hibernate.validator.constraints.Length;
 
@@ -11,6 +12,10 @@ import javax.validation.constraints.NotNull;
 
 public class    TransactionDTO {
 // TODO FIX THIS
+
+    @NotNull
+    private long id;
+
     @NotNull(message = "the Transaction type cannot be null")
     private TypeTransaction typeTransaction;
 
@@ -23,11 +28,16 @@ public class    TransactionDTO {
     private float price;
 
     @NotNull(message = "Crypto Currency must be specified")
-    private CryptoCurrency crypto;
+    private CryptoName cryptoName;
 
     @NotNull(message = "The user must be specified")
     private User user;
 
+    public long getId() {
+        return id;
+    }
+    public void setId(long id) {
+    }
 
     public TypeTransaction getType() {
         return this.typeTransaction;
@@ -50,11 +60,11 @@ public class    TransactionDTO {
         this.price = price;
     }
 
-    public CryptoCurrency getCrypto() {
-        return this.crypto;
+    public CryptoName getCryptoName() {
+        return this.cryptoName;
     }
-    public void setCrypto(CryptoCurrency crypto) {
-        this.crypto = crypto;
+    public void setCryptoName(CryptoName cryptoName) {
+        this.cryptoName = cryptoName;
     }
 
     public User getUser() {
@@ -65,13 +75,18 @@ public class    TransactionDTO {
     }
 
     public TransactionIntention createTransaction() {
-        return new TransactionIntention(typeTransaction, amount, price, crypto, user);
+        return new TransactionIntention(typeTransaction, amount, price, cryptoName, user);
     }
     public static final class TransactionDTOBuilder {
         private TransactionDTO newTransactionDTO;
 
         private TransactionDTOBuilder() {
             newTransactionDTO = new TransactionDTO();
+        }
+
+        public TransactionDTOBuilder withId(long id) {
+            newTransactionDTO.setId(id);
+            return this;
         }
 
         public TransactionDTOBuilder withTypeTransaction(TypeTransaction typeTransaction) {
@@ -89,8 +104,8 @@ public class    TransactionDTO {
             return this;
         }
 
-        public TransactionDTOBuilder withCrypto(CryptoCurrency crypto) {
-            newTransactionDTO.setCrypto(crypto);
+        public TransactionDTOBuilder withCryptoName(CryptoName cryptoName) {
+            newTransactionDTO.setCryptoName(cryptoName);
             return this;
         }
 
@@ -102,6 +117,10 @@ public class    TransactionDTO {
         public TransactionDTO build() {
             return newTransactionDTO;
         }
+    }
+
+    public static TransactionDTO.TransactionDTOBuilder builder() {
+        return new TransactionDTO.TransactionDTOBuilder();
     }
 
 }

@@ -36,7 +36,7 @@ public class User {
     private String address;
 
     @NotNull(message = "password cannot be null")
-    @Pattern(regexp = passwordRegex, message = "The password field should have at least be 6 length and have a lowecase, a uppercase, a special character")
+    @Pattern(regexp = passwordRegex, message = "The password field should have at least be 6 length and have a lowercase, a uppercase, a special character")
     private String password;
 
     @NotNull(message = "cvu cannot be null")
@@ -70,6 +70,7 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
+
 
     public String getName() {
         return name;
@@ -155,7 +156,7 @@ public class User {
 
         private UserBuilder() {}
 
-        public UserBuilder withId(long id){
+        public UserBuilder withId(Long id){
             user.setId(id);
             return this;
         }
@@ -192,16 +193,6 @@ public class User {
 
         public UserBuilder withWallet(String wallet) throws UserException {
             user.setWallet(wallet);
-            return this;
-        }
-
-        public UserBuilder withTransactionsPoints(int points){
-            user.setTransactionsPoints(points);
-            return this;
-        }
-
-        public UserBuilder withOperationsSuccess(int size) {
-            user.setSuccessfulOperations(size);
             return this;
         }
 

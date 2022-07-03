@@ -10,7 +10,6 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecution
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,8 +26,8 @@ public class TransactionController {
     @LogExecutionTime
     public ResponseEntity<List<TransactionIntention>> getActiveTransactions(){
         try{
-            List<TransactionIntention> activeTransactions = transactionService.findAllActive();
-            return ResponseEntity.ok(activeTransactions);
+            List<TransactionIntention> activeTransactions = this.transactionService.findAllActive();
+            return ResponseEntity.status(HttpStatus.OK).body(activeTransactions);
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -38,8 +37,8 @@ public class TransactionController {
     @LogExecutionTime
     public ResponseEntity<List<TransactionIntention>> getAllTransactions(){
         try{
-            List<TransactionIntention> activeTransactions = transactionService.findAll();
-            return ResponseEntity.ok(activeTransactions);
+            List<TransactionIntention> activeTransactions = this.transactionService.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(activeTransactions);
         }catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -47,23 +46,23 @@ public class TransactionController {
 
     @GetMapping("/transactions/{id}")
     @LogExecutionTime
-    public ResponseEntity<TransactionIntention> findById(@PathVariable Long id) throws TransactionException {
+    public ResponseEntity<TransactionIntention> findById(@PathVariable Long id){
         try {
             TransactionIntention transaction = this.transactionService.findById(id);
             return ResponseEntity.status(HttpStatus.OK).body(transaction);
-        } catch (Exception e){
+        } catch (TransactionException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @PostMapping("/transactions")
     @LogExecutionTime
-    public ResponseEntity<TransactionIntention> register(@Valid @RequestBody TransactionDTO transactionDto) throws TransactionException {
+    public ResponseEntity<?> register(@Valid @RequestBody TransactionDTO transactionDto){
         try {
             TransactionIntention transaction = transactionService.saveTransaction(transactionDto.createTransaction());
             return ResponseEntity.status(HttpStatus.CREATED).body(transaction);
         } catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getCause());
         }
     }
 }

@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency.ICryptoCurrencyService;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecutionTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +26,11 @@ public class CryptoController {
         return cryptoCurrencyService.findAll();
     }
 
-    @GetMapping("/cryptocurrency/{crypto}")
+    @GetMapping("/cryptocurrency/{cryptoName}")
     @LogExecutionTime
-    public ResponseEntity<CryptoCurrency> lastFor(@PathVariable String crypto){
+    public ResponseEntity<CryptoCurrency> lastFor(@PathVariable("cryptoName") CryptoName cryptoName){
         try {
-            CryptoCurrency cryptoCurrency = cryptoCurrencyService.findCryptoValueByName(crypto);
+            CryptoCurrency cryptoCurrency = cryptoCurrencyService.findCryptoValueByName(cryptoName);
             return ResponseEntity.status(HttpStatus.OK).body(cryptoCurrency);
         }catch(Exception exception){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

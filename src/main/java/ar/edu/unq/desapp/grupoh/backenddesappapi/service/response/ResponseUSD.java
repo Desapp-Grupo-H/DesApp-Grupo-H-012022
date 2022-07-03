@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public class ResponseUSD {
     private Float venta;
     private Float compra;
-    private LocalDateTime fecha = LocalDateTime.now();
 
     public ResponseUSD(Float compra, Float venta){
         this.compra = compra;
@@ -13,8 +12,6 @@ public class ResponseUSD {
     }
 
     public ResponseUSD(){}
-
-    public LocalDateTime getFecha(){return this.fecha;}
 
     public void setCompra(Float compra) {this.compra = compra;}
     public Float getCompra(){return this.compra;}

@@ -1,22 +1,22 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.response;
 
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.Crypto;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 
 public class ResponseBinance {
-    private Crypto symbol;
+    private CryptoName symbol;
     private Float price;
 
     public ResponseBinance(String symbol, Float price){
-        this.setSymbol(Crypto.valueOf(symbol));
+        this.setSymbol(CryptoName.valueOf(symbol));
         this.setPrice(price);
     }
 
     public ResponseBinance(){}
 
-    public Crypto getSymbol() {
+    public CryptoName getSymbol() {
         return symbol;
     }
-    public void setSymbol(Crypto symbol) {
+    public void setSymbol(CryptoName symbol) {
         this.symbol = symbol;
     }
 

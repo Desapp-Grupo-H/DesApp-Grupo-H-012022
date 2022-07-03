@@ -1,5 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TransactionStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
 
@@ -17,20 +18,19 @@ public class TransactionIntention {
     private double amount; //Amount of cryptocurrency available for buy/sell
     @Column(nullable = false)
     private float price; //Quotation
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cryptoCurrency_id")
-    private CryptoCurrency crypto;
+    @Column(nullable = false)
+    private CryptoName cryptoName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     @Column(nullable = false)
     private TransactionStatus status;
 
-    public TransactionIntention(TypeTransaction typeTransaction, double amount, float price, CryptoCurrency crypto, User user){
+    public TransactionIntention(TypeTransaction typeTransaction, double amount, float price, CryptoName cryptoName, User user){
         this.typeTransaction = typeTransaction;
         this.amount          = amount;
         this.price           = price;
-        this.crypto          = crypto;
+        this.cryptoName  = cryptoName;
         this.user            = user;
         this.status          = TransactionStatus.ACTIVE;
     }
@@ -66,11 +66,11 @@ public class TransactionIntention {
         this.price = price;
     }
 
-    public CryptoCurrency getCrypto() {
-        return crypto;
+    public CryptoName getCrypto() {
+        return cryptoName;
     }
-    public void setCrypto(CryptoCurrency crypto) {
-        this.crypto = crypto;
+    public void setCrypto(CryptoName cryptoName) {
+        this.cryptoName = cryptoName;
     }
 
     public User getUser() {
@@ -87,11 +87,11 @@ public class TransactionIntention {
         this.setStatus(TransactionStatus.INACTIVE);
     }
 
-    public Boolean isBuy(){
+    public boolean isBuy(){
         return this.typeTransaction == TypeTransaction.BUY;
     }
 
-    public Boolean isSell(){
+    public boolean isSell(){
         return this.typeTransaction == TypeTransaction.SELL;
     }
 
@@ -124,8 +124,8 @@ public class TransactionIntention {
             return this;
         }
 
-        public TransactionIntention.TransactionBuilder withCryptoCurrency(CryptoCurrency crypto){
-            transaction.setCrypto(crypto);
+        public TransactionIntention.TransactionBuilder withCryptoCurrency(CryptoName cryptoName){
+            transaction.setCrypto(cryptoName);
             return this;
         }
 
@@ -135,7 +135,7 @@ public class TransactionIntention {
         }
 
         public TransactionIntention build() {
-            return new TransactionIntention(transaction.typeTransaction, transaction.amount, transaction.price, transaction.crypto, transaction.user);
+            return new TransactionIntention(transaction.typeTransaction, transaction.amount, transaction.price, transaction.cryptoName, transaction.user);
         }
 
         public TransactionBuilder withId(Long id) {

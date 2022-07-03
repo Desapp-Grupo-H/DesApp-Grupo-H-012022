@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.Operation;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationAction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation.IOperationService;
@@ -10,7 +11,6 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecution
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -45,11 +45,11 @@ public class OperationController {
         }
     }
 
-    @GetMapping("/operations/{cryptoName}")
+    @GetMapping("/operations/crypto/{cryptoName}")
     @LogExecutionTime
-    public ResponseEntity<?> volumeOfOperations(@PathVariable String crypto){
+    public ResponseEntity<?> volumeOfOperations(@PathVariable("cryptoName") CryptoName cryptoName){
         try {
-            int volumeOfOperations = this.operationService.volumeOfOperations(crypto);
+            int volumeOfOperations = this.operationService.volumeOfOperations(cryptoName);
             return ResponseEntity.status(HttpStatus.OK).body(volumeOfOperations);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -58,9 +58,10 @@ public class OperationController {
 
     @PostMapping("/operations")
     @LogExecutionTime
-    public ResponseEntity<Operation> createOperation(@Valid @RequestBody OperationDTO operationDTO) throws OperationException{
+    public ResponseEntity<Operation> createOperation(@Valid @RequestBody OperationDTO operationDTO){
         try {
-            Operation operation = operationService.saveOperation(operationDTO.createOperation());
+            Operation operation = operationDTO.createOperation();
+            operation = operationService.saveOperation(operation);
             return ResponseEntity.status(HttpStatus.CREATED).body(operation);
         } catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -69,12 +70,12 @@ public class OperationController {
 
     @PutMapping("/operations/{operationId}")
     @LogExecutionTime
-    public ResponseEntity<?> forwardOperation(@PathVariable long operationId, @Valid @RequestBody OperationAction action, @RequestHeader long userId) throws OperationException {
+    public ResponseEntity<Operation> forwardOperation(@PathVariable("operationId") long operationId, @Valid @RequestBody OperationAction action, @RequestHeader long userId) {
         try {
-            operationService.actionOperation(operationId, action, userId);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            Operation operation = operationService.actionOperation(operationId, action, userId);
+            return ResponseEntity.status(HttpStatus.OK).body(operation);
         } catch(Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build()  ;
         }
     }
 }

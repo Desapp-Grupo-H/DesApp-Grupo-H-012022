@@ -1,9 +1,9 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.CryptoCurrency;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -12,10 +12,10 @@ public interface ICryptoCurrencyService {
     List<CryptoCurrency> findAll();
 
     @Transactional
-    CryptoCurrency getCryptoCurrency(String cryptoName);
+    CryptoCurrency getCryptoCurrency(CryptoName cryptoName);
 
     @Transactional(readOnly = true)
-    CryptoCurrency findCryptoValueByName(String name);
+    CryptoCurrency findCryptoValueByName(CryptoName name);
 
     @Transactional
     List<CryptoCurrency> getLastTenCryptoCurrency(String crypto);

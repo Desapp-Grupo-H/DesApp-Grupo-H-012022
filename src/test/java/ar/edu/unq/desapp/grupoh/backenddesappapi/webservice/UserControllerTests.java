@@ -92,7 +92,6 @@ public class UserControllerTests {
 
         // act
         ResponseEntity<?> actualResponse = userController.register(userDTO);
-        System.out.println(actualResponse.getBody());
         // arrange
         Assertions.assertEquals(expectedResponse, actualResponse.getBody());
         Assertions.assertEquals(HttpStatus.CREATED, actualResponse.getStatusCode());

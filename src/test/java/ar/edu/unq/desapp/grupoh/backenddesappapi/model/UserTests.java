@@ -7,7 +7,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserTests {
 
     public User anUser() throws UserException {
-        return User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313123131231312322").withWallet("12345678").withAddress("1234567891").withPassword("123123").build();
+        return User
+                .builder()
+                .withName("Pepe")
+                .withLastname("Argento")
+                .withAddress("1234567891")
+                .withEmail("pepeArg@yahoo.com")
+                .withPassword("Pa55w0?d!")
+                .withCvu("1312313123131231312322")
+                .withWallet("12345678")
+                .build();
     }
 
     @Test
@@ -16,7 +25,13 @@ public class UserTests {
 
         assertEquals("Pepe", user.getName());
         assertEquals("Argento", user.getLastname());
+        assertEquals("1234567891", user.getAddress());
         assertEquals("pepeArg@yahoo.com", user.getEmail());
+        assertEquals("Pa55w0?d!", user.getPassword());
+        assertEquals("1312313123131231312322", user.getCvu());
+        assertEquals("12345678", user.getWallet());
+        assertEquals(0, user.getTransactionsPoints());
+        assertEquals(0, user.getSuccessfulOperations());
     }
 
     @Test
@@ -75,6 +90,21 @@ public class UserTests {
 
         assertTrue(actualMessage.contains("Email not valid"));
 
+    }
+
+    @Test
+    public void anUserGet20PointsAndIncreasesTheSuccessfulOperationsCounter() throws UserException {
+        User user = anUser();
+        user.completedTransaction(20);
+        assertEquals(20, user.getTransactionsPoints());
+        assertEquals(1, user.getSuccessfulOperations());
+    }
+
+    @Test
+    public void anUserGetnegative20PointsWhenCancelAnOperation() throws UserException {
+        User user = anUser();
+        user.cancelledTransaction();
+        assertEquals(-20, user.getTransactionsPoints());
     }
 
 

@@ -9,8 +9,6 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +21,6 @@ import static org.junit.Assert.assertTrue;
 import static org.reflections.ReflectionUtils.*;
 
 public class ArchitectureTests {
-
-    private Logger logger = LoggerFactory.getLogger(LogExecutionTimeAspectAnnotation.class);
 
     @Test
     public void testAllPublicMethodsInServicesAreTransactional(){
@@ -58,10 +54,6 @@ public class ArchitectureTests {
         for (Class<?> controller : controllers) {
             Set<Method> publicMethods = getAllMethods(controller, withModifier(Modifier.PUBLIC));
             Set<Method> loggedMethods = getAllMethods(controller, withAnnotation(LogExecutionTime.class));
-            logger.info("/////// transactionalMethods");
-            logger.info(String.valueOf(publicMethods));
-            logger.info("/////// loggedMethods");
-            logger.info(String.valueOf(loggedMethods));
 
             loggedMethods.removeIf(n -> (Modifier.isAbstract(n.getModifiers())));
 

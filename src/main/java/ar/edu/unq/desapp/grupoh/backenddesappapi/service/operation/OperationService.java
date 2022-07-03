@@ -1,25 +1,35 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.operation;
 
-import ar.edu.unq.desapp.grupoh.backenddesappapi.model.Operation;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.*;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.OperationAction;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.repository.OperationRepository;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.repository.UserRepository;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency.CryptoCurrencyService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency.ICryptoCurrencyService;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.user.IUserService;
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OperationService implements IOperationService {
 
-    private final OperationRepository operationRepository;
+    @Autowired
+    private IUserService userService;
 
     @Autowired
-    public OperationService(OperationRepository operationRepository){
-        this.operationRepository = operationRepository;
-    }
+    @Lazy
+    private ICryptoCurrencyService cryptoCurrencyService;
+
+    @Autowired
+    @Lazy
+    private OperationRepository operationRepository;
 
     @Transactional
     @Override
@@ -41,30 +51,36 @@ public class OperationService implements IOperationService {
 
     @Transactional
     @Override
-    public void actionOperation(long operationId, OperationAction action, Long userId) throws OperationException {
+    public Operation actionOperation(Long operationId, OperationAction action, Long userId) throws OperationException, UserException {
         Operation operation = operationRepository.findById(operationId).orElseThrow(() -> new OperationException("The operation does not exist"));
-        switch (action){
-            case REALIZETRANSFER:
-                operation = operation.awaitsConfirmation(userId);
-                break;
-            case CONFIRMRECEPTION:
-                    operation = operation.completeOperation(userId);
-                break;
-            case CANCEL:
-                operation = operation.cancelOperation(userId);
-                break;
-            default:
-                throw new OperationException("The action is not recognized");
+        User userOperated = userService.findById(userId);
+        try{
+            switch (action){
+                case REALIZETRANSFER:
+                    operation = operation.awaitsConfirmation(userOperated);
+                    break;
+                case CONFIRMRECEPTION:
+                    CryptoCurrency cryptoCurrency = cryptoCurrencyService.getCryptoCurrency(operation.getCrypto());
+                    operation = operation.completeOperation(userOperated, cryptoCurrency);
+                    break;
+                case CANCEL:
+                    operation = operation.cancelOperation(userOperated);
+                    break;
+                default:
+                    throw new OperationException("The action is not recognized");
+            }
         }
-        this.operationRepository.save(operation);
+        finally {
+            return this.operationRepository.save(operation);
+        }
     }
 
     @Transactional
     @Override
-    public int volumeOfOperations(String cryptoName) {
+    public int volumeOfOperations(CryptoName cryptoName) {
         List<Operation> operations = findAll();
-        return (int) (int) operations
+        return (int) operations
                 .stream()
-                .filter(operation -> operation.isComplete() && operation.getCrypto().getCrypto().name().equals(cryptoName)).count();
+                .filter(operation -> operation.isComplete() && operation.getCrypto().equals(cryptoName)).count();
     }
 }

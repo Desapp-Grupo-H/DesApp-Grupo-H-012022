@@ -9,7 +9,6 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.webservice.aspects.LogExecution
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -46,7 +45,7 @@ public class UserController {
 
     @PostMapping("/users")
     @LogExecutionTime
-    public ResponseEntity<User> register(@Valid @RequestBody UserDTO userDto) throws UserException {
+    public ResponseEntity<User> register(@Valid @RequestBody UserDTO userDto) {
         try {
             User user = userService.saveUser(userDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(user);
@@ -57,7 +56,7 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     @LogExecutionTime
-    public ResponseEntity<?> delete(@PathVariable Long id) throws UserException {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         try {
             userService.deleteUser(id);
             return ResponseEntity.status(HttpStatus.OK).build();
