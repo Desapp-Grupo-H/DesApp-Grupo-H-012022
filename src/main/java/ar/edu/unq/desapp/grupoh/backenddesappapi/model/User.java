@@ -2,6 +2,7 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.validators.Validator;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.service.user.UserDTO;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -63,6 +64,18 @@ public class User {
     }
 
     public User(){}
+
+    public static User build(UserDTO userDTO) throws UserException {
+        return User.builder()
+                .withName(userDTO.getName())
+                .withLastname(userDTO.getLastName())
+                .withEmail(userDTO.getEmail())
+                .withPassword(userDTO.getPassword())
+                .withAddress(userDTO.getAddress())
+                .withCvu(userDTO.getCvu())
+                .withWallet(userDTO.getWalletAddress())
+                .build();
+    }
 
     public Long getId() {
         return id;

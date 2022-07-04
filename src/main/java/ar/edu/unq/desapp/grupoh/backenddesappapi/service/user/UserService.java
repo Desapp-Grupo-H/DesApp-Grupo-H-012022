@@ -1,13 +1,18 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.user;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.UserException;
+import ar.edu.unq.desapp.grupoh.backenddesappapi.model.security.JWTAuthorizationFilter;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+//import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 
 @Service
@@ -15,6 +20,8 @@ public class UserService implements IUserService{
 
     @Autowired
     private UserRepository userRepository;
+
+    //private PasswordEncoder passwordEncoder = new ShaPasswordEncoder();
 
     @Transactional
     @Override
@@ -31,17 +38,27 @@ public class UserService implements IUserService{
     @Transactional
     @Override
     public User saveUser(UserDTO userDTO) throws UserException {
-        User user = User.builder()
-                .withName(userDTO.getName())
-                .withLastname(userDTO.getLastName())
-                .withEmail(userDTO.getEmail())
-                .withPassword(userDTO.getPassword())
-                .withAddress(userDTO.getAddress())
-                .withCvu(userDTO.getCvu())
-                .withWallet(userDTO.getWalletAddress())
-                .build();
-
-        return this.userRepository.save(user);
+            Optional<User> user = userRepository.findByEmail(userDTO.getEmail());
+        if(user.isPresent()){
+            return null;
+        }
+        //String password = passwordEncoder.encode(userDTO.getPassword());
+        //userDTO.setPassword(password);
+        User newUser = User.build(userDTO);
+        User bitch  = this.userRepository.save(newUser);
+        return bitch;
+    }
+    @Transactional
+    @Override
+    public TokenDTO login(UserLoginDTO userLoginDTO){
+        Optional<User> user = userRepository.findByEmail(userLoginDTO.getEmail());
+        if(!user.isPresent()){return null;}
+        //if (passwordEncoder.matches(userLoginDTO.getPassword(), user.get().getPassword())){
+        if (Objects.equals(userLoginDTO.getPassword(), user.get().getPassword())){
+            return new TokenDTO(JWTAuthorizationFilter.getJWTToken(userLoginDTO.getEmail()));
+        }else{
+            return null;
+        }
     }
 
     @Transactional

@@ -17,11 +17,11 @@ public interface IUserService {
     User saveUser(UserDTO userDTO) throws UserException;
 
     @Transactional
+    TokenDTO login(UserLoginDTO userLoginDTO);
+
+    @Transactional
     void deleteUser(Long id);
 
     @Transactional
-    User findByEmail(String email)/*
-    public void loginUser(){}
-
-    public void logOut(){}*/;
+    User findByEmail(String email);
 }

@@ -71,29 +71,4 @@ public class UserControllerTests {
         Assertions.assertEquals(expectedUser, response.getBody());
         Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     }
-
-    @Test
-    public void postNewUser_savesUser() throws UserException {
-        // arrange
-        Long expectedId = 1L;
-        UserDTO userDTO = UserDTO.builder()
-                .name("TestUser")
-                .email("test@gtest.com")
-                .build();
-        User expectedUser = User.builder()
-                .withId(expectedId)
-                .withName("TestUser")
-                .withEmail("test@gtest.com")
-                .build();
-
-        User expectedResponse = expectedUser;
-
-        when(userServiceMock.saveUser(userDTO)).thenReturn(expectedUser);
-
-        // act
-        ResponseEntity<?> actualResponse = userController.register(userDTO);
-        // arrange
-        Assertions.assertEquals(expectedResponse, actualResponse.getBody());
-        Assertions.assertEquals(HttpStatus.CREATED, actualResponse.getStatusCode());
-    }
 }

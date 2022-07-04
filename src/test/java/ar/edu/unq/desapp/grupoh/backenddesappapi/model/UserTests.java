@@ -36,9 +36,8 @@ public class UserTests {
 
     @Test
     public void anUserHasInvalidName() {
-        UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pe").withLastname("Argento").withEmail("pepeArg@yahoo.com").build();
-        });
+        UserException error  = assertThrows(UserException.class, () ->
+            User.builder().withName("Pe").build());
 
         String actualMessage = error.getMessage();
 
@@ -48,9 +47,8 @@ public class UserTests {
 
     @Test
     public void anUserHasInvalidLastname() {
-        UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pepe").withLastname("Ar").withEmail("pepeArg@yahoo.com").build();
-        });
+        UserException error  = assertThrows(UserException.class, () ->
+            User.builder().withLastname("Ar").build());
 
         String actualMessage = error.getMessage();
 
@@ -60,9 +58,8 @@ public class UserTests {
 
     @Test
     public void anUserHasInvalidCvu() {
-        UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withCvu("1312313122").withWallet("12345678").withAddress("1234567891").withPassword("123123").build();
-        });
+        UserException error  = assertThrows(UserException.class, () ->
+            User.builder().withCvu("1312313122").build());
         String actualMessage = error.getMessage();
         assertTrue(actualMessage.contains("Cvu not valid"));
     }
@@ -70,9 +67,8 @@ public class UserTests {
 
     @Test
     public void anUserHasInvalidWallet() {
-        UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArg@yahoo.com").withWallet("123456").build();
-        });
+        UserException error  = assertThrows(UserException.class, () ->
+            User.builder().withWallet("123456").build());
 
         String actualMessage = error.getMessage();
 
@@ -82,9 +78,8 @@ public class UserTests {
 
     @Test
     public void anUserHasInvalidEmail() {
-        UserException error  = assertThrows(UserException.class, () -> {
-            User.builder().withName("Pepe").withLastname("Argento").withEmail("pepeArgyahoo.com").build();
-        });
+        UserException error  = assertThrows(UserException.class, () ->
+            User.builder().withEmail("pepeArgyahoo.com").build());
 
         String actualMessage = error.getMessage();
 

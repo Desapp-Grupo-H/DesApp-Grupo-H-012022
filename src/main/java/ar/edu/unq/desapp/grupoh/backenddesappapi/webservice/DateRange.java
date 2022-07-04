@@ -1,8 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.webservice;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class DateRange {
     private LocalDateTime startDate;
