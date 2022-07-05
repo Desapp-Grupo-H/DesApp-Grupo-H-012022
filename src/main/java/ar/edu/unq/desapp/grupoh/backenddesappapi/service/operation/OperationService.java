@@ -60,7 +60,7 @@ public class OperationService implements IOperationService {
                     operation = operation.awaitsConfirmation(userOperated);
                     break;
                 case CONFIRMRECEPTION:
-                    CryptoCurrency cryptoCurrency = cryptoCurrencyService.getCryptoCurrency(operation.getCrypto());
+                    CryptoCurrency cryptoCurrency = cryptoCurrencyService.getCryptoCurrency(operation.getCryptoName());
                     operation = operation.completeOperation(userOperated, cryptoCurrency);
                     break;
                 case CANCEL:
@@ -81,6 +81,6 @@ public class OperationService implements IOperationService {
         List<Operation> operations = findAll();
         return (int) operations
                 .stream()
-                .filter(operation -> operation.isComplete() && operation.getCrypto().equals(cryptoName)).count();
+                .filter(operation -> operation.isComplete() && operation.getCryptoName().equals(cryptoName)).count();
     }
 }

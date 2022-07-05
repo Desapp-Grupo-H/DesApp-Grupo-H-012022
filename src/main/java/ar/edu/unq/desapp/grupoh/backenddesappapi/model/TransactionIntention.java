@@ -3,26 +3,44 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TransactionStatus;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.TypeTransaction;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 @Entity
 @Table(name = "transactionIntention")
+@NoArgsConstructor
 public class TransactionIntention {
 
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Getter
+    @Setter
     @Column(nullable = false)
     private TypeTransaction typeTransaction; //BUY OR SELL
+    @Getter
+    @Setter
     @Column(nullable = false)
     private double amount; //Amount of cryptocurrency available for buy/sell
+    @Getter
+    @Setter
     @Column(nullable = false)
     private float price; //Quotation
+    @Getter
+    @Setter
     @Column(nullable = false)
     private CryptoName cryptoName;
+    @Getter
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+    @Getter
+    @Setter
     @Column(nullable = false)
     private TransactionStatus status;
 
@@ -34,54 +52,6 @@ public class TransactionIntention {
         this.user            = user;
         this.status          = TransactionStatus.ACTIVE;
     }
-
-    public TransactionIntention(){}
-
-    public TypeTransaction getTypeTransaction() {
-        return typeTransaction;
-    }
-    public void setTypeTransaction(TypeTransaction typeTransaction) {
-        this.typeTransaction = typeTransaction;
-    }
-
-
-    public Long getId(){
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public double getAmount() {
-        return amount;
-    }
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public CryptoName getCrypto() {
-        return cryptoName;
-    }
-    public void setCrypto(CryptoName cryptoName) {
-        this.cryptoName = cryptoName;
-    }
-
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public TransactionStatus getStatus(){ return status;}
-    public void setStatus(TransactionStatus status){this.status = status;}
 
     public void endIntention(){
         this.setStatus(TransactionStatus.INACTIVE);
@@ -125,7 +95,7 @@ public class TransactionIntention {
         }
 
         public TransactionIntention.TransactionBuilder withCryptoCurrency(CryptoName cryptoName){
-            transaction.setCrypto(cryptoName);
+            transaction.setCryptoName(cryptoName);
             return this;
         }
 
@@ -144,9 +114,7 @@ public class TransactionIntention {
         }
     }
 
-    public static TransactionIntention.TransactionBuilder builder() {
-        return new TransactionIntention.TransactionBuilder();
+    public static TransactionBuilder builder() {
+        return new TransactionBuilder();
     }
-
-
 }

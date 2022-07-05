@@ -5,41 +5,30 @@ import ar.edu.unq.desapp.grupoh.backenddesappapi.model.TransactionIntention;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.User;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.OperationException;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.service.transaction.TransactionDTO;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
 public class OperationDTO {
 
+    @Getter
+    @Setter
     @NotNull(message = "intention cannot be null")
-    private TransactionIntention intention;
+    private TransactionIntention transactionIntention;
+
+    @Getter
+    @Setter
     @NotNull(message = "user cannot be null")
     private User userInitOperation;
 
+    @Getter
+    @Setter
     @NotNull(message = "amount cannot be null")
     private double amount;
 
-    public TransactionIntention getTransactionIntention() {
-        return this.intention;
-    }
-    public void setTransactionIntention(TransactionIntention intention) {
-        this.intention = intention;
-    }
-
-    public User getUserInitOperation() {
-        return this.userInitOperation;
-    }
-    public void setUserInitOperation(User userInitOperation) {
-        this.userInitOperation = userInitOperation;
-    }
-
-    public double getAmount() {
-        return this.amount;
-    }
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
     public Operation createOperation() {
-        return new Operation(intention, userInitOperation, amount);
+        return new Operation(transactionIntention, userInitOperation, amount);
     }
 
     public static final class OperationDTOBuilder {

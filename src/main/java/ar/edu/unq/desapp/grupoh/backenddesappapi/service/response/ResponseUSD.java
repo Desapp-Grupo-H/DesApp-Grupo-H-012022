@@ -1,22 +1,11 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.response;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
+@NoArgsConstructor @AllArgsConstructor
 public class ResponseUSD {
+    @Getter @Setter
     private Float venta;
+    @Getter @Setter
     private Float compra;
-
-    public ResponseUSD(Float compra, Float venta){
-        this.compra = compra;
-        this.venta = venta;
-    }
-
-    public ResponseUSD(){}
-
-    public void setCompra(Float compra) {this.compra = compra;}
-    public Float getCompra(){return this.compra;}
-
-    public void setVenta(Float venta) {this.venta = venta;}
-    public Float getVenta(){return this.venta;}
-
 }

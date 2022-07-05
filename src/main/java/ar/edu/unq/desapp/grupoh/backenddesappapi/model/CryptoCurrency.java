@@ -2,6 +2,9 @@ package ar.edu.unq.desapp.grupoh.backenddesappapi.model;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.exceptions.CryptoException;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,52 +12,26 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "cryptoCurrency")
+@NoArgsConstructor
 public class CryptoCurrency {
 
+    @Getter @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter @Setter
     @NotNull
     private CryptoName cryptoName;
+    @Getter @Setter
     @NotNull
     private Float price;
+    @Getter @Setter
     private LocalDateTime date;
-
-    public CryptoCurrency(){};
     public CryptoCurrency(CryptoName cryptoName, Float price){
-        this.setDate(LocalDateTime.now());
-        this.setCrypto(cryptoName);
-        this.setPrice(price);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public CryptoName getCrypto() {
-        return cryptoName;
-    }
-    public void setCrypto(CryptoName cryptoName) {
+        this.date = LocalDateTime.now();
         this.cryptoName = cryptoName;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-    public void setPrice(Float price) {
         this.price = price;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-    public void setDate(LocalDateTime date) {
-        this.date = date;
     }
 
     public boolean compareQuotation(float price){
@@ -67,7 +44,7 @@ public class CryptoCurrency {
         private CryptoCurrencyBuilder() {}
 
         public CryptoCurrencyBuilder withCryptoCurrency(CryptoName cryptoName){
-            cryptoCurrency.setCrypto(cryptoName);
+            cryptoCurrency.setCryptoName(cryptoName);
             return this;
         }
 

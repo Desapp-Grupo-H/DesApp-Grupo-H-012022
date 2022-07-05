@@ -8,23 +8,23 @@ public class UserTests {
 
     public User anUser() throws UserException {
         return User
-                .builder()
-                .withName("Pepe")
-                .withLastname("Argento")
-                .withAddress("1234567891")
-                .withEmail("pepeArg@yahoo.com")
-                .withPassword("Pa55w0?d!")
-                .withCvu("1312313123131231312322")
-                .withWallet("12345678")
-                .build();
+            .builder()
+            .withName("Pepe")
+            .withLastname("Argento")
+            .withAddress("1234567891")
+            .withEmail("pepeArg@yahoo.com")
+            .withPassword("Pa55w0?d!")
+            .withCvu("1312313123131231312322")
+            .withWallet("12345678")
+            .build();
     }
 
     @Test
-    public void anUserHasNameLastNameAndEmail() throws UserException{
+    public void anUserCreatedHasAllItsAtributes() throws UserException{
         User user = anUser();
 
         assertEquals("Pepe", user.getName());
-        assertEquals("Argento", user.getLastname());
+        assertEquals("Argento", user.getLastName());
         assertEquals("1234567891", user.getAddress());
         assertEquals("pepeArg@yahoo.com", user.getEmail());
         assertEquals("Pa55w0?d!", user.getPassword());

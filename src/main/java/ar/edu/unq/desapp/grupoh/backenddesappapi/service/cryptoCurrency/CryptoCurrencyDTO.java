@@ -1,48 +1,35 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.cryptoCurrency;
 
 import ar.edu.unq.desapp.grupoh.backenddesappapi.model.enums.CryptoName;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor @AllArgsConstructor
 public class CryptoCurrencyDTO {
 
+    @Getter
+    @Setter
     private Long id;
 
+    @Getter
+    @Setter
     @NotNull
     private CryptoName cryptoName;
+
+    @Getter
+    @Setter
     @NotNull
     private Float price;
+
+    @Getter
+    @Setter
     private LocalDateTime date;
 
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public CryptoName getCrypto() {
-        return cryptoName;
-    }
-    public void setCrypto(CryptoName cryptoName) {
-        this.cryptoName = cryptoName;
-    }
-
-    public Float getPrice() {
-        return price;
-    }
-    public void setPrice(Float price) {
-        this.price = price;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
 
     public static CryptoCurrencyDTO builder() {
         return new CryptoCurrencyDTO();
@@ -61,7 +48,7 @@ public class CryptoCurrencyDTO {
         }
 
         public CryptoCurrencyDTOBuilder withCrypto(CryptoName cryptoName) {
-            newCryptoCurrencyDTO.setCrypto(cryptoName);
+            newCryptoCurrencyDTO.setCryptoName(cryptoName);
             return this;
         }
 

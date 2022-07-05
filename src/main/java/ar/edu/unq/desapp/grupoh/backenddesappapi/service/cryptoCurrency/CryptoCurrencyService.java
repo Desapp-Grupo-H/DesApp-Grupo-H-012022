@@ -48,7 +48,7 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
     public CryptoCurrency findCryptoValueByName(CryptoName cryptoName) {
         return cryptoCurrencyRepository.findAll()
                 .stream()
-                .filter(cryptoCurrencyCandidate -> cryptoCurrencyCandidate.getCrypto() == cryptoName)
+                .filter(cryptoCurrencyCandidate -> cryptoCurrencyCandidate.getCryptoName() == cryptoName)
                 .collect(Collectors.collectingAndThen(Collectors.maxBy(Comparator.comparing(CryptoCurrency::getDate)), Optional::get));
     }
 
@@ -98,7 +98,7 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
     }
 
     private List<CryptoCurrency> findByCrypto(CryptoName cryptoName){
-        return cryptoCurrencyRepository.findAll().stream().filter(cryptoCurrency -> cryptoCurrency.getCrypto() == cryptoName).collect(Collectors.toList());
+        return cryptoCurrencyRepository.findAll().stream().filter(cryptoCurrency -> cryptoCurrency.getCryptoName() == cryptoName).collect(Collectors.toList());
     }
 
     private ResponseBinance getBinanceResponse(CryptoName cryptoName) {

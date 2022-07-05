@@ -27,7 +27,7 @@ public class CryptoCurrencyTest {
     @Test
     public void aCryptoCurrencyHasADateAPriceAndACryptoName() throws CryptoException {
         CryptoCurrency cryptoCurrency = aCryptoCurrency();
-        assertEquals(aCryptoName, cryptoCurrency.getCrypto());
+        assertEquals(aCryptoName, cryptoCurrency.getCryptoName());
         assertEquals(aTime, cryptoCurrency.getDate());
         assertEquals(aPrice, cryptoCurrency.getPrice());
 

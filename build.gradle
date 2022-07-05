@@ -15,8 +15,6 @@ repositories {
 	mavenCentral()
 }
 
-
-
 sonarqube {
 	properties {
 		property "sonar.projectKey", "DesApp-Grupo-H-012022"
@@ -29,7 +27,6 @@ sonarqube {
 	}
 }
 
-
 jacocoTestReport {
 	reports {
 		xml.enabled true
@@ -41,6 +38,11 @@ jacoco {
 }
 
 dependencies {
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+	testCompileOnly 'org.projectlombok:lombok:1.18.24'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -73,9 +75,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
 tasks.test {
 	finalizedBy(tasks.jacocoTestReport)
 }
+
 tasks.jacocoTestReport {
 	dependsOn(tasks.test)
 }
@@ -85,5 +89,13 @@ tasks.jacocoTestReport {
 		xml.required.set(true)
 		csv.required.set(false)
 		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml").get().asFile)
+	}
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					'ar/edu/unq/desapp/grupoh/backenddesappapi/**/*DTO.java',
+					'ar/edu/unq/desapp/grupoh/backenddesappapi/**/enums/**'
+			])
+		}))
 	}
 }
