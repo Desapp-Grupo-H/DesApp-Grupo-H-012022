@@ -41,8 +41,7 @@ public class User {
     @Length(min = 10, max = 30, message = "The address field should have at least 10 letters and a maximum of 30")
     private String address;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "password cannot be null")
     @Pattern(regexp = passwordRegex, message = "The password field should have at least be 6 length and have a lowercase, a uppercase, a special character")
     private String password;
@@ -177,6 +176,4 @@ public class User {
     public static UserBuilder builder(){
         return new UserBuilder();
     }
-
-
 }

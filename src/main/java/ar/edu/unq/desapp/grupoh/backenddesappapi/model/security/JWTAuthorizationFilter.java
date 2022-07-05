@@ -82,15 +82,3 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                 ).compact();
     }
 }
-
-/*
-{
-  "address": "string1231",
-  "cvu": "0011223344556677889910",
-  "email": "string@gmail.com",
-  "lastName": "string",
-  "name": "string",
-  "password": "asdf123!A",
-  "walletAddress": "00000000"
-}
-*/

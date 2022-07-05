@@ -13,34 +13,27 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class TransactionIntention {
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private TypeTransaction typeTransaction; //BUY OR SELL
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private double amount; //Amount of cryptocurrency available for buy/sell
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private float price; //Quotation
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private CryptoName cryptoName;
-    @Getter
-    @Setter
+    @Getter @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private TransactionStatus status;
 

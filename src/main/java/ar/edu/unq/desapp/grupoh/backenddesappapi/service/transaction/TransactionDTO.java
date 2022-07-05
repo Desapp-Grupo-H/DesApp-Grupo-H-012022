@@ -12,8 +12,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
-public class    TransactionDTO {
-// TODO FIX THIS
+public class TransactionDTO {
 
     @Getter
     @Setter

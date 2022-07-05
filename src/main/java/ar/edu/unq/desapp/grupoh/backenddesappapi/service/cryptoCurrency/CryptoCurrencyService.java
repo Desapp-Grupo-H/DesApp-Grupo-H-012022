@@ -29,7 +29,7 @@ public class CryptoCurrencyService implements ICryptoCurrencyService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Transactional
-    @Override //TODO STREAM TO REDUCE
+    @Override
     public List<CryptoCurrency> findAll() {
         return cryptoCurrencyRepository.findAll();
     }
