@@ -56,7 +56,7 @@ public class TransactionController {
     }
 
     @PostMapping("/transactions")
-    @LogExecutionTime
+    @LogExecutionTime //TODO Change user in dto to userId
     public ResponseEntity<?> register(@Valid @RequestBody TransactionDTO transactionDto){
         try {
             TransactionIntention transaction = transactionService.saveTransaction(transactionDto.createTransaction());

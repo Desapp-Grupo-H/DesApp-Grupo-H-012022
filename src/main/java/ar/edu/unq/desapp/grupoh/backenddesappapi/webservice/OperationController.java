@@ -57,7 +57,7 @@ public class OperationController {
     }
 
     @PostMapping("/operations")
-    @LogExecutionTime
+    @LogExecutionTime //TODO CHANGE OBJECT TO ID
     public ResponseEntity<Operation> createOperation(@Valid @RequestBody OperationDTO operationDTO){
         try {
             Operation operation = operationDTO.createOperation();
@@ -69,7 +69,7 @@ public class OperationController {
     }
 
     @PutMapping("/operations/{operationId}")
-    @LogExecutionTime
+    @LogExecutionTime //TODO header userId to mail from token in header
     public ResponseEntity<Operation> forwardOperation(@PathVariable("operationId") long operationId, @Valid @RequestBody OperationAction action, @RequestHeader long userId) {
         try {
             Operation operation = operationService.actionOperation(operationId, action, userId);

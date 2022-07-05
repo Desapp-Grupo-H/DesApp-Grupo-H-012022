@@ -75,13 +75,13 @@ public class User {
 
     public static User build(UserDTO userDTO) throws UserException {
         return User.builder()
-                .withName(userDTO.getName())
-                .withLastname(userDTO.getLastName())
-                .withEmail(userDTO.getEmail())
-                .withPassword(userDTO.getPassword())
-                .withAddress(userDTO.getAddress())
-                .withCvu(userDTO.getCvu())
-                .withWallet(userDTO.getWalletAddress())
+                .withName(      userDTO.getName())
+                .withLastname(  userDTO.getLastName())
+                .withEmail(     userDTO.getEmail())
+                .withPassword(  userDTO.getPassword())
+                .withAddress(   userDTO.getAddress())
+                .withCvu(       userDTO.getCvu())
+                .withWallet(    userDTO.getWalletAddress())
                 .build();
     }
 

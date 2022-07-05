@@ -23,5 +23,5 @@ public interface IUserService {
     void deleteUser(Long id);
 
     @Transactional
-    User findByEmail(String email);
+    User findByEmail(String email) throws UserException;
 }

@@ -1,7 +1,6 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -13,45 +12,38 @@ public class UserDTO {
     public static final String passwordRegex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[#?!@$%^&*-]).{6,}$";
     public static final String digitsRegex = "[0-9]+";
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "name cannot be null")
     @Length(min = 3, max = 30, message = "The name field should have at least 3 letters and a maximum of 30")
     private String name;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "lastName cannot be null")
     @Length(min = 3, max = 30, message = "The lastname field should have at least 3 letters and a maximum of 30")
     private String lastName;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "email cannot be null")
     @Email(message = "email should be a valid email")
     private String email;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "address cannot be null")
     @Length(min = 10, max = 30, message = "The address field should have at least 10 letters and a maximum of 30")
     private String address;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "password cannot be null")
-    @Pattern(regexp = passwordRegex, message = "The password field should have at least be 6 length and have a lowecase, a uppercase, a special character")
+    @Pattern(regexp = passwordRegex, message = "The password field should have at least be 6 length and have a lowercase, a uppercase, a special character")
     private String password;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "cvu cannot be null")
     @Length(min = 22, max = 22, message = "The cvu field should have 22 length")
     @Pattern(regexp = digitsRegex, message = "The cvu field should only have digits")
     private String cvu;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @NotNull(message = "walletAddress cannot be null")
     @Length(min = 8, max = 8, message = "The walletAddress field should have 8 length")
     @Pattern(regexp = digitsRegex, message = "The walletAddress field should only have digits")

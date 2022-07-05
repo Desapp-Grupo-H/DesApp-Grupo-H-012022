@@ -30,11 +30,6 @@ public class CryptoCurrencyDTO {
     @Setter
     private LocalDateTime date;
 
-
-    public static CryptoCurrencyDTO builder() {
-        return new CryptoCurrencyDTO();
-    }
-
     public static final class CryptoCurrencyDTOBuilder {
         private CryptoCurrencyDTO newCryptoCurrencyDTO;
 

@@ -1,6 +1,7 @@
 package ar.edu.unq.desapp.grupoh.backenddesappapi.service.user;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -32,7 +33,10 @@ public class UserService implements IUserService{
     @Transactional
     @Override
     public User findById(Long id) throws UserException {
-        return this.userRepository.findById(id).orElseThrow(() -> new UserException("The User does not exist"));//Exception);
+        return this.userRepository
+                .findById(id)
+                .orElseThrow(() -> new UserException("The User does not exist")
+                );
     }
 
     @Transactional
@@ -44,9 +48,7 @@ public class UserService implements IUserService{
         }
         //String password = passwordEncoder.encode(userDTO.getPassword());
         //userDTO.setPassword(password);
-        User newUser = User.build(userDTO);
-        User bitch  = this.userRepository.save(newUser);
-        return bitch;
+        return this.userRepository.save(User.build(userDTO));
     }
     @Transactional
     @Override
@@ -69,7 +71,12 @@ public class UserService implements IUserService{
 
     @Transactional
     @Override
-    public User findByEmail(String email){
-        return findAll().stream().filter(user -> user.getEmail().equals(email)).findAny().orElse(null);
+    public User findByEmail(String email) throws UserException {
+        try{
+            return this.userRepository.findByEmail(email).get();
+        }catch(NoSuchElementException exception){
+            throw new UserException("The User does not exist");
+        }
+        //return findAll().stream().filter(user -> user.getEmail().equals(email)).findAny().orElseThrow(() -> new UserException("The User does not exist"));
     }
 }

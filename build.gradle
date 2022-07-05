@@ -90,12 +90,25 @@ tasks.jacocoTestReport {
 		csv.required.set(false)
 		html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml").get().asFile)
 	}
-	afterEvaluate {
-		classDirectories.setFrom(files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: [
-					'ar/edu/unq/desapp/grupoh/backenddesappapi/**/*DTO.java',
-					'ar/edu/unq/desapp/grupoh/backenddesappapi/**/enums/**'
-			])
-		}))
+
+	dependsOn test {
+		classDirectories.setFrom(
+				fileTree(dir: "build/classes/java/main")
+						.filter({ file -> !file.name.contains('BackendDesappApiApplication') })
+						.filter({ file -> !file.name.contains('Log') })
+						.filter({ file -> !file.name.contains('Response') })
+						.filter({ file -> !file.name.contains('SecurityConfiguration') })
+						.filter({ file -> !file.name.contains('ServletInitializer') })
+						.filter({ file -> !file.name.contains('DTO') })
+						.filter({ file -> !file.name.contains('Controller') })
+						.filter({ file -> !file.name.contains('JWTAuthorizationFilter') })
+						.filter({ file -> !file.name.contains('JwtTokenFilter') })
+						.filter({ file -> !file.name.contains('JwtTokenUtil') })
+						.filter({ file -> !file.name.contains('WebSecurityConfig') })
+						.filter({ file -> !file.name.contains('DataLoader') })
+						.filter({ file -> !file.name.contains('SecurityConfig') })
+						.filter({ file -> !file.name.contains('SwaggerConfig') })
+						.filter({ file -> !file.name.contains('Exception') })
+		)
 	}
 }

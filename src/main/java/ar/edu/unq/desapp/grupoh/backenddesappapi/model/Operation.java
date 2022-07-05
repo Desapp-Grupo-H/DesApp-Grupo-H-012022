@@ -18,45 +18,37 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class    Operation {
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "transactionIntention_id")
     private TransactionIntention intention; //The intention selected by the user
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private CryptoName cryptoName;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User userInitOperation;//The user that initiates the operation
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private LocalDateTime dateStarted;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     private LocalDateTime dateCompleted; //LocalDateTime Format "2022-04-19T22:39:10"
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private OperationStatus status;
 
-    @Getter
-    @Setter
+    @Getter @Setter
     @Column(nullable = false)
     private double amount;
 

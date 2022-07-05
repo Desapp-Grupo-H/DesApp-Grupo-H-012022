@@ -38,7 +38,7 @@ public class CryptoController {
     }
 
     @GetMapping("/cryptocurrency/last")
-    @LogExecutionTime
+    @LogExecutionTime //TODO LAST24HOURS
     public ResponseEntity<List<CryptoCurrency>> last(){
         try {
             List<CryptoCurrency> cryptoCurrencies = cryptoCurrencyService.getLastCryptoCurrency();
